@@ -1,0 +1,33 @@
+server:
+  port: ${PORT:8090}
+  forward-headers-strategy: framework
+  servlet:
+    session:
+      timeout: 20m
+      cookie:
+        name: VQSESSION
+        http-only: true
+        secure: ${COOKIE_SECURE:true}
+        same-site: lax
+spring:
+  application:
+    name: school-bff
+identity:
+  public-url: ${OIDC_ISSUER:http://localhost:8080/auth/realms/vq-school}
+  internal-url: ${OIDC_INTERNAL_URL:http://localhost:8080/auth/realms/vq-school}
+  secret: ${VQ_BFF_SECRET}
+  post-logout-url: ${APP_URL:http://localhost:8080/}
+services:
+  school: ${SCHOOL_URL:http://localhost:8081}
+  learning: ${LEARNING_URL:http://localhost:8082}
+  communication: ${COMMUNICATION_URL:http://localhost:8083}
+management:
+  endpoints:
+    web:
+      exposure:
+        include: health
+  endpoint:
+    health:
+      probes:
+        enabled: true
+      show-details: never

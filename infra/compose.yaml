@@ -1,0 +1,93 @@
+name: vq-school-local
+# Local foundation only. Not a production deployment.
+services:
+  postgres:
+    image: postgres:17.6-alpine
+    environment:
+      POSTGRES_DB: keycloak
+      POSTGRES_USER: keycloak
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD:?Run init-local.py}
+    volumes: [keycloak-db:/var/lib/postgresql/data]
+    healthcheck:
+      test: [CMD-SHELL, 'pg_isready -U keycloak -d keycloak']
+      interval: 5s
+      timeout: 3s
+      retries: 20
+  keycloak:
+    image: quay.io/keycloak/keycloak:26.8.1
+    command: [start-dev, --import-realm]
+    environment:
+      KC_DB: postgres
+      KC_DB_URL: jdbc:postgresql://postgres:5432/keycloak
+      KC_DB_USERNAME: keycloak
+      KC_DB_PASSWORD: ${POSTGRES_PASSWORD:?Run init-local.py}
+      KC_BOOTSTRAP_ADMIN_USERNAME: local-admin
+      KC_BOOTSTRAP_ADMIN_PASSWORD: ${KEYCLOAK_ADMIN_PASSWORD:?Run init-local.py}
+      KC_HTTP_RELATIVE_PATH: /auth
+      KC_HOSTNAME: http://localhost:8080
+      KC_PROXY_HEADERS: xforwarded
+      KC_HEALTH_ENABLED: 'true'
+      VQ_BFF_SECRET: ${VQ_BFF_SECRET:?Run init-local.py}
+      DEMO_STUDENT_PASSWORD: ${DEMO_STUDENT_PASSWORD:?Run init-local.py}
+    volumes: ['./keycloak/realm-local.json:/opt/keycloak/data/import/realm-local.json:ro']
+    depends_on:
+      postgres: {condition: service_healthy}
+  bff:
+    build:
+      context: ..
+      args: {SERVICE: bff}
+    environment:
+      PORT: '8080'
+      COOKIE_SECURE: 'false'
+      VQ_BFF_SECRET: ${VQ_BFF_SECRET:?Run init-local.py}
+      OIDC_ISSUER: http://localhost:8080/auth/realms/vq-school
+      OIDC_INTERNAL_URL: http://keycloak:8080/auth/realms/vq-school
+      SCHOOL_URL: http://school:8080
+      LEARNING_URL: http://learning:8080
+      COMMUNICATION_URL: http://communication:8080
+    depends_on: [keycloak]
+  school:
+    build:
+      context: ..
+      args: {SERVICE: school-service}
+    environment: &resource-env
+      PORT: '8080'
+      OIDC_ISSUER: http://localhost:8080/auth/realms/vq-school
+      OIDC_JWK_URI: http://keycloak:8080/auth/realms/vq-school/protocol/openid-connect/certs
+  learning:
+    build:
+      context: ..
+      args: {SERVICE: learning-service}
+    environment: *resource-env
+  communication:
+    build:
+      context: ..
+      args: {SERVICE: communication-service}
+    environment: *resource-env
+  shell:
+    build:
+      context: ${FRONTEND_PATH:-../../Va-school-app}
+      args:
+        APP: shell
+        VQ_BASE: /
+        VQ_ACADEMIC_URL: http://localhost:8080/mfe/academic/remoteEntry.js
+        VQ_LEARNING_URL: http://localhost:8080/mfe/learning/remoteEntry.js
+  academic:
+    build:
+      context: ${FRONTEND_PATH:-../../Va-school-app}
+      args: {APP: academic, VQ_BASE: 'http://localhost:8080/mfe/academic/'}
+  learning-web:
+    build:
+      context: ${FRONTEND_PATH:-../../Va-school-app}
+      args: {APP: learning, VQ_BASE: 'http://localhost:8080/mfe/learning/'}
+  public-web:
+    build:
+      context: ${FRONTEND_PATH:-../../Va-school-app}
+      args: {APP: public, VQ_BASE: /public/}
+  edge:
+    image: nginxinc/nginx-unprivileged:1.28-alpine
+    ports: ['127.0.0.1:8080:8080']
+    volumes: ['./nginx.conf:/etc/nginx/conf.d/default.conf:ro']
+    depends_on: [shell, academic, learning-web, public-web, bff, keycloak]
+volumes:
+  keycloak-db:

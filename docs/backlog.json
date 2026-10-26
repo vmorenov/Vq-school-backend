@@ -1,0 +1,1263 @@
+{
+  "schema_version": 1,
+  "baseline_date": "2026-10-25",
+  "state": "foundation-in-progress",
+  "canonical_repository": "vmorenov/Vq-school-backend (backend y coordinación funcional)",
+  "epics": {
+    "E01": "Plataforma e infraestructura",
+    "E02": "Identidad, colegios y permisos",
+    "E03": "Organización académica",
+    "E04": "Notas, asistencia y reportes",
+    "E05": "Aprendizaje y evaluaciones",
+    "E06": "Sitio público administrable",
+    "E07": "Comunicaciones",
+    "E08": "Inspectoría y apoderados",
+    "E09": "Auditoría, seguridad y piloto"
+  },
+  "stories": [
+    {
+      "id": "HU-01",
+      "title": "Inicializar monorepositorio y herramientas",
+      "epic": "E01",
+      "phase": "R0",
+      "points": 5,
+      "dependencies": [],
+      "role": "equipo técnico",
+      "value": "construir cada plataforma desde su repositorio y arrancarlas de forma integrada",
+      "criteria": [
+        "React/TypeScript en Va-school-app y Maven multimódulo Java 21 en services de Vq-school-backend; versiones exactas y lockfiles, sin latest.",
+        "Build, lint y pruebas reproducibles en CI y guía para un nuevo desarrollador.",
+        "Cada servicio usa Dockerfile multi-stage y usuario no root; no comparte entidades JPA ni lógica de negocio."
+      ],
+      "status": "En progreso (base parcial)",
+      "priority": "P0",
+      "issue_url": "https://github.com/vmorenov/Vq-school-backend/issues/1",
+      "issue_number": 1,
+      "frontend_tasks": [
+        {
+          "id": "FE-01",
+          "url": "https://github.com/vmorenov/Va-school-app/issues/2"
+        },
+        {
+          "id": "FE-02",
+          "url": "https://github.com/vmorenov/Va-school-app/issues/3"
+        }
+      ],
+      "backend_scope": "Reglas de dominio, contratos, autorización, persistencia o infraestructura; coordinación de aceptación integral."
+    },
+    {
+      "id": "HU-02",
+      "title": "Levantar entorno local con Docker Compose",
+      "epic": "E01",
+      "phase": "R0",
+      "points": 5,
+      "dependencies": [
+        "HU-01"
+      ],
+      "role": "desarrollador",
+      "value": "ejecutar el sistema completo",
+      "criteria": [
+        "Un comando inicia web, proxy, BFF, tres servicios de negocio, Keycloak y dependencias con healthchecks.",
+        "Bases lógicas y usuarios separados por servicio; volúmenes sobreviven reinicios.",
+        "Seed exclusivamente ficticio de dos colegios y cuatro roles; smoke test de login y aislamiento; reset destructivo documentado."
+      ],
+      "status": "En progreso (base parcial)",
+      "priority": "P0",
+      "issue_url": "https://github.com/vmorenov/Vq-school-backend/issues/2",
+      "issue_number": 2,
+      "frontend_tasks": [
+        {
+          "id": "FE-01",
+          "url": "https://github.com/vmorenov/Va-school-app/issues/2"
+        }
+      ],
+      "backend_scope": "Reglas de dominio, contratos, autorización, persistencia o infraestructura; coordinación de aceptación integral."
+    },
+    {
+      "id": "HU-03",
+      "title": "Configurar CI y promoción entre ambientes",
+      "epic": "E01",
+      "phase": "R0",
+      "points": 5,
+      "dependencies": [
+        "HU-01"
+      ],
+      "role": "equipo técnico",
+      "value": "promover artefactos verificables",
+      "criteria": [
+        "PR ejecuta build, lint, pruebas relevantes, contratos y escaneo de secretos/dependencias.",
+        "develop, staging y master exigen PR, sin bypass, force push ni borrado; verificar reglas efectivas y checks existentes.",
+        "Imágenes con SHA y mismo digest entre ambientes; aprobación de producción y secretos separados; forks sin secretos.",
+        "Rollback de aplicación probado con migraciones compatibles; migraciones destructivas no se revierten automáticamente."
+      ],
+      "status": "En progreso (base parcial)",
+      "priority": "P0",
+      "issue_url": "https://github.com/vmorenov/Vq-school-backend/issues/3",
+      "issue_number": 3,
+      "frontend_tasks": [
+        {
+          "id": "FE-03",
+          "url": "https://github.com/vmorenov/Va-school-app/issues/4"
+        },
+        {
+          "id": "FE-18",
+          "url": "https://github.com/vmorenov/Va-school-app/issues/19"
+        }
+      ],
+      "backend_scope": "Reglas de dominio, contratos, autorización, persistencia o infraestructura; coordinación de aceptación integral."
+    },
+    {
+      "id": "HU-04",
+      "title": "Configurar establecimientos y membresías",
+      "epic": "E02",
+      "phase": "R0",
+      "points": 5,
+      "dependencies": [
+        "HU-01"
+      ],
+      "role": "administrador",
+      "value": "gestionar mi colegio con aislamiento",
+      "criteria": [
+        "Operador crea colegio; administrador sólo configura su nombre, contacto, zona horaria y parámetros.",
+        "Membresía une issuer+sub, colegio, roles y estado; usuario multicolegio elige un ámbito autorizado.",
+        "Servidor verifica colegio activo; cambiar slug, header o ID no concede acceso.",
+        "Pruebas con dos colegios cubren lecturas, escrituras, listados, archivos y exportaciones."
+      ],
+      "status": "Pendiente",
+      "priority": "P0",
+      "issue_url": "https://github.com/vmorenov/Vq-school-backend/issues/4",
+      "issue_number": 4,
+      "frontend_tasks": [
+        {
+          "id": "FE-05",
+          "url": "https://github.com/vmorenov/Va-school-app/issues/6"
+        }
+      ],
+      "backend_scope": "Reglas de dominio, contratos, autorización, persistencia o infraestructura; coordinación de aceptación integral."
+    },
+    {
+      "id": "HU-05",
+      "title": "Autenticarse con Keycloak y cerrar sesión",
+      "epic": "E02",
+      "phase": "R0",
+      "points": 5,
+      "dependencies": [
+        "HU-01",
+        "HU-02"
+      ],
+      "role": "usuario",
+      "value": "acceder con una identidad segura",
+      "criteria": [
+        "OIDC Authorization Code con PKCE en BFF; no formulario propio de contraseñas ni client_secret en navegador.",
+        "Cookie HttpOnly, Secure en HTTPS y SameSite; tokens sólo en servidor; validación CSRF, state y nonce.",
+        "Logout invalida sesión BFF y SSO; renovación fallida vuelve a login; APIs validan firma, issuer, audiencia y vigencia.",
+        "MFA obligatorio para personal; recuperación supervisada para alumnos sin exigir correo personal."
+      ],
+      "status": "En progreso (base parcial)",
+      "priority": "P0",
+      "issue_url": "https://github.com/vmorenov/Vq-school-backend/issues/5",
+      "issue_number": 5,
+      "frontend_tasks": [
+        {
+          "id": "FE-04",
+          "url": "https://github.com/vmorenov/Va-school-app/issues/5"
+        }
+      ],
+      "backend_scope": "Reglas de dominio, contratos, autorización, persistencia o infraestructura; coordinación de aceptación integral."
+    },
+    {
+      "id": "HU-06",
+      "title": "Gestionar usuarios y roles del colegio",
+      "epic": "E02",
+      "phase": "R0",
+      "points": 8,
+      "dependencies": [
+        "HU-04",
+        "HU-05"
+      ],
+      "role": "administrador",
+      "value": "provisionar usuarios sin SQL manual",
+      "criteria": [
+        "Alta, edición y desactivación de los cuatro roles desde aplicación; provisión idempotente en Keycloak.",
+        "Vínculo automático por issuer+sub, nunca copiar IDs manualmente ni usar username como clave.",
+        "Sólo se administran roles del colegio propio; no se otorgan privilegios de operador global.",
+        "Fallo de provisión deja pendiente/error reintentable; cuenta parcial no se habilita.",
+        "Desactivar membresía bloquea siguientes operaciones del colegio y preserva historial sin afectar otras membresías."
+      ],
+      "status": "Pendiente",
+      "priority": "P0",
+      "issue_url": "https://github.com/vmorenov/Vq-school-backend/issues/6",
+      "issue_number": 6,
+      "frontend_tasks": [
+        {
+          "id": "FE-05",
+          "url": "https://github.com/vmorenov/Va-school-app/issues/6"
+        }
+      ],
+      "backend_scope": "Reglas de dominio, contratos, autorización, persistencia o infraestructura; coordinación de aceptación integral."
+    },
+    {
+      "id": "HU-07",
+      "title": "Aplicar permisos por rol y relación académica",
+      "epic": "E02",
+      "phase": "R0",
+      "points": 8,
+      "dependencies": [
+        "HU-04",
+        "HU-05",
+        "HU-06"
+      ],
+      "role": "responsable del colegio",
+      "value": "restringir cada operación a su ámbito",
+      "criteria": [
+        "Cada endpoint valida identidad, membresía activa, rol y relación con alumno/curso/asignatura.",
+        "Alumno sólo ve sus datos; profesor sólo modifica asignaturas/cursos asignados.",
+        "Inspector registra anotaciones, salidas y citaciones, nunca calificaciones; administrador no califica sin rol docente y asignación.",
+        "UI y servidor aplican permisos; pruebas negativas cubren 401/403/404 sin filtrar datos y usuarios multirrol entre colegios."
+      ],
+      "status": "Pendiente",
+      "priority": "P0",
+      "issue_url": "https://github.com/vmorenov/Vq-school-backend/issues/7",
+      "issue_number": 7,
+      "frontend_tasks": [
+        {
+          "id": "FE-04",
+          "url": "https://github.com/vmorenov/Va-school-app/issues/5"
+        }
+      ],
+      "backend_scope": "Reglas de dominio, contratos, autorización, persistencia o infraestructura; coordinación de aceptación integral."
+    },
+    {
+      "id": "HU-08",
+      "title": "Gestionar año académico y períodos",
+      "epic": "E03",
+      "phase": "R1",
+      "points": 3,
+      "dependencies": [
+        "HU-04",
+        "HU-07"
+      ],
+      "role": "administrador",
+      "value": "organizar ciclos y cierres",
+      "criteria": [
+        "Año y períodos tienen fechas válidas no solapadas; sólo uno vigente.",
+        "Cierre bloquea nuevas notas y cambios ordinarios de asistencia.",
+        "Reapertura exige permiso y motivo auditado; no convierte administrador en docente.",
+        "Historial conserva año/período/matrícula al cambiar de ciclo."
+      ],
+      "status": "Pendiente",
+      "priority": "P0",
+      "issue_url": "https://github.com/vmorenov/Vq-school-backend/issues/8",
+      "issue_number": 8,
+      "frontend_tasks": [
+        {
+          "id": "FE-05",
+          "url": "https://github.com/vmorenov/Va-school-app/issues/6"
+        }
+      ],
+      "backend_scope": "Reglas de dominio, contratos, autorización, persistencia o infraestructura; coordinación de aceptación integral."
+    },
+    {
+      "id": "HU-09",
+      "title": "Gestionar cursos y asignaturas",
+      "epic": "E03",
+      "phase": "R1",
+      "points": 3,
+      "dependencies": [
+        "HU-08"
+      ],
+      "role": "administrador",
+      "value": "representar la estructura académica",
+      "criteria": [
+        "Crear niveles, cursos/secciones y asignaturas por año con unicidad en su ámbito.",
+        "Asignaciones rechazan referencias de otro colegio.",
+        "Desactivar conserva historial; no hay borrado destructivo con dependencias.",
+        "Listados paginados filtrables por año y estado."
+      ],
+      "status": "Pendiente",
+      "priority": "P0",
+      "issue_url": "https://github.com/vmorenov/Vq-school-backend/issues/9",
+      "issue_number": 9,
+      "frontend_tasks": [
+        {
+          "id": "FE-05",
+          "url": "https://github.com/vmorenov/Va-school-app/issues/6"
+        }
+      ],
+      "backend_scope": "Reglas de dominio, contratos, autorización, persistencia o infraestructura; coordinación de aceptación integral."
+    },
+    {
+      "id": "HU-10",
+      "title": "Matricular alumnos y registrar apoderados",
+      "epic": "E03",
+      "phase": "R1",
+      "points": 5,
+      "dependencies": [
+        "HU-06",
+        "HU-09"
+      ],
+      "role": "administrador",
+      "value": "vincular estudiantes y contactos responsables",
+      "criteria": [
+        "Máximo una matrícula activa por colegio/año en MVP; traslado conserva historial y fechas.",
+        "Contactos registran parentesco, teléfono, correo opcional, prioridad y autorización de retiro.",
+        "Apoderado es contacto sin portal en MVP; datos sólo para personal autorizado.",
+        "Se rechazan duplicados y referencias ajenas; alumno no consulta contactos de compañeros."
+      ],
+      "status": "Pendiente",
+      "priority": "P0",
+      "issue_url": "https://github.com/vmorenov/Vq-school-backend/issues/10",
+      "issue_number": 10,
+      "frontend_tasks": [
+        {
+          "id": "FE-05",
+          "url": "https://github.com/vmorenov/Va-school-app/issues/6"
+        }
+      ],
+      "backend_scope": "Reglas de dominio, contratos, autorización, persistencia o infraestructura; coordinación de aceptación integral."
+    },
+    {
+      "id": "HU-11",
+      "title": "Asignar profesores a cursos y asignaturas",
+      "epic": "E03",
+      "phase": "R1",
+      "points": 3,
+      "dependencies": [
+        "HU-06",
+        "HU-09"
+      ],
+      "role": "administrador",
+      "value": "definir responsables académicos",
+      "criteria": [
+        "Asignación incluye profesor/curso/asignatura/año/vigencia y co-docencia explícita.",
+        "No admite docentes inactivos o de otro colegio.",
+        "Retirar asignación revoca nuevas modificaciones y conserva autoría.",
+        "Notas, asistencia, materiales y pruebas usan esta relación para autorizar."
+      ],
+      "status": "Pendiente",
+      "priority": "P0",
+      "issue_url": "https://github.com/vmorenov/Vq-school-backend/issues/11",
+      "issue_number": 11,
+      "frontend_tasks": [
+        {
+          "id": "FE-05",
+          "url": "https://github.com/vmorenov/Va-school-app/issues/6"
+        }
+      ],
+      "backend_scope": "Reglas de dominio, contratos, autorización, persistencia o infraestructura; coordinación de aceptación integral."
+    },
+    {
+      "id": "HU-12",
+      "title": "Crear y consultar horarios",
+      "epic": "E03",
+      "phase": "R1",
+      "points": 5,
+      "dependencies": [
+        "HU-10",
+        "HU-11"
+      ],
+      "role": "administrador y alumno",
+      "value": "organizar y consultar clases",
+      "criteria": [
+        "Publicar horario semanal con bloque, asignatura, profesor y sala opcional.",
+        "Rechazar solapamientos de curso, docente y sala informada; cambios tienen vigencia.",
+        "Alumno consulta su curso y profesor sus bloques en zona horaria del colegio.",
+        "Historial preservado y estado vacío si no hay horario publicado."
+      ],
+      "status": "Pendiente",
+      "priority": "P0",
+      "issue_url": "https://github.com/vmorenov/Vq-school-backend/issues/12",
+      "issue_number": 12,
+      "frontend_tasks": [
+        {
+          "id": "FE-05",
+          "url": "https://github.com/vmorenov/Va-school-app/issues/6"
+        }
+      ],
+      "backend_scope": "Reglas de dominio, contratos, autorización, persistencia o infraestructura; coordinación de aceptación integral."
+    },
+    {
+      "id": "HU-13",
+      "title": "Ver inicio y asignaturas según perfil",
+      "epic": "E03",
+      "phase": "R1",
+      "points": 3,
+      "dependencies": [
+        "HU-07",
+        "HU-10",
+        "HU-11",
+        "HU-12"
+      ],
+      "role": "alumno y profesor",
+      "value": "encontrar mis actividades",
+      "criteria": [
+        "Alumno ve asignaturas/clases del día y enlaces a notas, asistencia, material y pruebas.",
+        "Profesor ve sus cursos; administrador e inspector tienen navegación de su rol.",
+        "Contadores y enlaces sólo incluyen recursos autorizados; no hay datos simulados presentados como reales.",
+        "Móvil/escritorio con estados carga, error, vacío y sesión expirada."
+      ],
+      "status": "Pendiente",
+      "priority": "P0",
+      "issue_url": "https://github.com/vmorenov/Vq-school-backend/issues/13",
+      "issue_number": 13,
+      "frontend_tasks": [
+        {
+          "id": "FE-02",
+          "url": "https://github.com/vmorenov/Va-school-app/issues/3"
+        },
+        {
+          "id": "FE-06",
+          "url": "https://github.com/vmorenov/Va-school-app/issues/7"
+        }
+      ],
+      "backend_scope": "Reglas de dominio, contratos, autorización, persistencia o infraestructura; coordinación de aceptación integral."
+    },
+    {
+      "id": "HU-14",
+      "title": "Configurar escala y evaluaciones académicas",
+      "epic": "E04",
+      "phase": "R1",
+      "points": 5,
+      "dependencies": [
+        "HU-08",
+        "HU-11"
+      ],
+      "role": "administrador y profesor",
+      "value": "aplicar reglas de calificación consistentes",
+      "criteria": [
+        "Colegio define escala, aprobación y redondeo; propuesta piloto 1,0–7,0.",
+        "Profesor define evaluación, fecha y ponderación; suma publicada del período debe ser 100%.",
+        "Ausente, pendiente y eximido no son cero; promedio definitivo sólo con evaluaciones resueltas.",
+        "Reglas usadas por notas publicadas se versionan; cambios no reescriben resultados históricos."
+      ],
+      "status": "Pendiente",
+      "priority": "P0",
+      "issue_url": "https://github.com/vmorenov/Vq-school-backend/issues/14",
+      "issue_number": 14,
+      "frontend_tasks": [
+        {
+          "id": "FE-07",
+          "url": "https://github.com/vmorenov/Va-school-app/issues/8"
+        }
+      ],
+      "backend_scope": "Reglas de dominio, contratos, autorización, persistencia o infraestructura; coordinación de aceptación integral."
+    },
+    {
+      "id": "HU-15",
+      "title": "Registrar, publicar y corregir calificaciones",
+      "epic": "E04",
+      "phase": "R1",
+      "points": 8,
+      "dependencies": [
+        "HU-10",
+        "HU-11",
+        "HU-14"
+      ],
+      "role": "profesor",
+      "value": "entregar notas trazables",
+      "criteria": [
+        "Guardar borrador/publicar valida rango, matrícula, asignación y período abierto.",
+        "Alumno no ve borrador; publicación guarda autor/fecha/versión.",
+        "Corregir publicado exige motivo y valor anterior/nuevo; control optimista evita sobrescritura concurrente.",
+        "Inspector y administrador sin rol docente no califican.",
+        "Publicación emite evento sin nota en correo ni logs generales."
+      ],
+      "status": "Pendiente",
+      "priority": "P0",
+      "issue_url": "https://github.com/vmorenov/Vq-school-backend/issues/15",
+      "issue_number": 15,
+      "frontend_tasks": [
+        {
+          "id": "FE-07",
+          "url": "https://github.com/vmorenov/Va-school-app/issues/8"
+        }
+      ],
+      "backend_scope": "Reglas de dominio, contratos, autorización, persistencia o infraestructura; coordinación de aceptación integral."
+    },
+    {
+      "id": "HU-16",
+      "title": "Consultar notas y promedios personales",
+      "epic": "E04",
+      "phase": "R1",
+      "points": 3,
+      "dependencies": [
+        "HU-15"
+      ],
+      "role": "alumno",
+      "value": "conocer mi rendimiento",
+      "criteria": [
+        "Sólo notas propias publicadas con evaluación, fecha y ponderación.",
+        "Promedio muestra fórmula, redondeo y estado provisional si faltan evaluaciones.",
+        "Pruebas cubren límites decimales, ausente/eximido y ponderaciones.",
+        "Cambiar ID de alumno o colegio no revela calificaciones ni metadatos."
+      ],
+      "status": "Pendiente",
+      "priority": "P0",
+      "issue_url": "https://github.com/vmorenov/Vq-school-backend/issues/16",
+      "issue_number": 16,
+      "frontend_tasks": [
+        {
+          "id": "FE-07",
+          "url": "https://github.com/vmorenov/Va-school-app/issues/8"
+        }
+      ],
+      "backend_scope": "Reglas de dominio, contratos, autorización, persistencia o infraestructura; coordinación de aceptación integral."
+    },
+    {
+      "id": "HU-17",
+      "title": "Registrar y corregir asistencia por clase",
+      "epic": "E04",
+      "phase": "R1",
+      "points": 5,
+      "dependencies": [
+        "HU-10",
+        "HU-11",
+        "HU-12"
+      ],
+      "role": "profesor",
+      "value": "registrar participación de mi curso",
+      "criteria": [
+        "Sesión única curso/asignatura/fecha/bloque y registro único por alumno.",
+        "Estados presente, ausente, atrasado y justificado; pendiente no equivale a ausencia.",
+        "Idempotencia evita duplicados y control de versión detecta ediciones concurrentes.",
+        "Corrección exige motivo y período abierto; no se crean ausencias por falta de registro.",
+        "Indicador es asistencia por clase, no libro oficial de asistencia diaria."
+      ],
+      "status": "Pendiente",
+      "priority": "P0",
+      "issue_url": "https://github.com/vmorenov/Vq-school-backend/issues/17",
+      "issue_number": 17,
+      "frontend_tasks": [
+        {
+          "id": "FE-08",
+          "url": "https://github.com/vmorenov/Va-school-app/issues/9"
+        }
+      ],
+      "backend_scope": "Reglas de dominio, contratos, autorización, persistencia o infraestructura; coordinación de aceptación integral."
+    },
+    {
+      "id": "HU-18",
+      "title": "Consultar asistencia personal",
+      "epic": "E04",
+      "phase": "R1",
+      "points": 3,
+      "dependencies": [
+        "HU-17"
+      ],
+      "role": "alumno",
+      "value": "revisar asistencias y atrasos",
+      "criteria": [
+        "Filtros por período, asignatura y fecha con sesiones registradas.",
+        "Indicador base = presentes+atrasados dividido por sesiones con estado definitivo; justificado cuenta como no asistido.",
+        "Mostrar numerador, denominador y pendientes; sin registros mostrar sin datos.",
+        "Alumno no edita asistencia ni ve la de otros."
+      ],
+      "status": "Pendiente",
+      "priority": "P0",
+      "issue_url": "https://github.com/vmorenov/Vq-school-backend/issues/18",
+      "issue_number": 18,
+      "frontend_tasks": [
+        {
+          "id": "FE-08",
+          "url": "https://github.com/vmorenov/Va-school-app/issues/9"
+        }
+      ],
+      "backend_scope": "Reglas de dominio, contratos, autorización, persistencia o infraestructura; coordinación de aceptación integral."
+    },
+    {
+      "id": "HU-19",
+      "title": "Publicar material pedagógico seguro",
+      "epic": "E05",
+      "phase": "R2",
+      "points": 5,
+      "dependencies": [
+        "HU-07",
+        "HU-11",
+        "HU-39"
+      ],
+      "role": "profesor",
+      "value": "compartir recursos de mis clases",
+      "criteria": [
+        "Crear título, descripción, curso/asignatura y PDF o enlace HTTPS, sólo para asignaciones propias.",
+        "PDF máximo 20 MB, tipo real/extensión/tamaño validados y cuarentena hasta escaneo limpio.",
+        "Pendiente o rechazado no descargable; nombre original no determina ruta.",
+        "Borrador/publicado/archivado, versión y cuota inicial configurable de 5 GB por colegio.",
+        "Objetos privados; ejemplos sin datos reales de alumnos."
+      ],
+      "status": "Pendiente",
+      "priority": "P1",
+      "issue_url": "https://github.com/vmorenov/Vq-school-backend/issues/19",
+      "issue_number": 19,
+      "frontend_tasks": [
+        {
+          "id": "FE-09",
+          "url": "https://github.com/vmorenov/Va-school-app/issues/10"
+        }
+      ],
+      "backend_scope": "Reglas de dominio, contratos, autorización, persistencia o infraestructura; coordinación de aceptación integral."
+    },
+    {
+      "id": "HU-20",
+      "title": "Consultar y descargar materiales",
+      "epic": "E05",
+      "phase": "R2",
+      "points": 3,
+      "dependencies": [
+        "HU-10",
+        "HU-19"
+      ],
+      "role": "alumno",
+      "value": "estudiar con recursos autorizados",
+      "criteria": [
+        "Listar sólo material publicado de asignaturas de matrícula vigente.",
+        "Descarga revalida membresía/curso y genera URL firmada de 60 segundos, sin listar bucket.",
+        "Recurso retirado/no disponible informa error sin revelar claves internas.",
+        "Pruebas de otro colegio/curso, URL expirada y cuarentena."
+      ],
+      "status": "Pendiente",
+      "priority": "P1",
+      "issue_url": "https://github.com/vmorenov/Vq-school-backend/issues/20",
+      "issue_number": 20,
+      "frontend_tasks": [
+        {
+          "id": "FE-09",
+          "url": "https://github.com/vmorenov/Va-school-app/issues/10"
+        }
+      ],
+      "backend_scope": "Reglas de dominio, contratos, autorización, persistencia o infraestructura; coordinación de aceptación integral."
+    },
+    {
+      "id": "HU-21",
+      "title": "Crear preguntas y pruebas en borrador",
+      "epic": "E05",
+      "phase": "R2",
+      "points": 5,
+      "dependencies": [
+        "HU-11"
+      ],
+      "role": "profesor",
+      "value": "preparar test y ensayos",
+      "criteria": [
+        "Selección única, verdadero/falso y respuesta abierta con enunciado/orden/puntaje positivo.",
+        "Objetivas tienen exactamente una respuesta correcta; abiertas tienen pauta privada.",
+        "Total suma puntajes y prueba vacía/inválida no publicable.",
+        "Soluciones/pautas nunca aparecen en DTOs ni HTML para alumnos."
+      ],
+      "status": "Pendiente",
+      "priority": "P1",
+      "issue_url": "https://github.com/vmorenov/Vq-school-backend/issues/21",
+      "issue_number": 21,
+      "frontend_tasks": [
+        {
+          "id": "FE-10",
+          "url": "https://github.com/vmorenov/Va-school-app/issues/11"
+        }
+      ],
+      "backend_scope": "Reglas de dominio, contratos, autorización, persistencia o infraestructura; coordinación de aceptación integral."
+    },
+    {
+      "id": "HU-22",
+      "title": "Publicar y programar pruebas",
+      "epic": "E05",
+      "phase": "R2",
+      "points": 5,
+      "dependencies": [
+        "HU-10",
+        "HU-21"
+      ],
+      "role": "profesor",
+      "value": "habilitar una evaluación con plazos",
+      "criteria": [
+        "Elegir curso, apertura, cierre y duración coherentes mostrando zona horaria.",
+        "Un intento por alumno/prueba; sólo matrícula autorizada puede iniciar.",
+        "Publicar crea versión inmutable; intentos existentes no cambian al editar borrador de otra versión.",
+        "Cancelar conserva intentos y motivo y avisa sin calificar cero.",
+        "Resultados sólo se liberan por docente después del cierre."
+      ],
+      "status": "Pendiente",
+      "priority": "P1",
+      "issue_url": "https://github.com/vmorenov/Vq-school-backend/issues/22",
+      "issue_number": 22,
+      "frontend_tasks": [
+        {
+          "id": "FE-10",
+          "url": "https://github.com/vmorenov/Va-school-app/issues/11"
+        }
+      ],
+      "backend_scope": "Reglas de dominio, contratos, autorización, persistencia o infraestructura; coordinación de aceptación integral."
+    },
+    {
+      "id": "HU-23",
+      "title": "Responder pruebas con autoguardado",
+      "epic": "E05",
+      "phase": "R2",
+      "points": 8,
+      "dependencies": [
+        "HU-22"
+      ],
+      "role": "alumno",
+      "value": "entregar sin perder respuestas confirmadas",
+      "criteria": [
+        "Intento creado una sola vez concurrentemente; vence en min(cierre,inicio+duración) según servidor.",
+        "Autoguardado confirma versión/hora; reintentos idempotentes no duplican ni pisan versiones nuevas.",
+        "Entregar o vencer bloquea respuestas; job finaliza aun con navegador cerrado.",
+        "Reconexión recupera sólo respuestas confirmadas; no acepta respuestas tardías.",
+        "UI informa guardado/error y tiempo accesible, confirma entrega y nunca revela soluciones."
+      ],
+      "status": "Pendiente",
+      "priority": "P1",
+      "issue_url": "https://github.com/vmorenov/Vq-school-backend/issues/23",
+      "issue_number": 23,
+      "frontend_tasks": [
+        {
+          "id": "FE-11",
+          "url": "https://github.com/vmorenov/Va-school-app/issues/12"
+        }
+      ],
+      "backend_scope": "Reglas de dominio, contratos, autorización, persistencia o infraestructura; coordinación de aceptación integral."
+    },
+    {
+      "id": "HU-24",
+      "title": "Corregir y publicar retroalimentación",
+      "epic": "E05",
+      "phase": "R2",
+      "points": 8,
+      "dependencies": [
+        "HU-23"
+      ],
+      "role": "profesor",
+      "value": "evaluar respuestas y devolver resultados",
+      "criteria": [
+        "Objetivas corregidas en servidor contra versión del intento; abiertas requieren puntaje manual válido.",
+        "Sólo docente asignado ve respuestas; no publica con abiertas pendientes ni antes del cierre.",
+        "Rectificar exige motivo e historial.",
+        "Pasar resultado a nota es acción explícita con fórmula y evaluación destino; idempotencia evita dos notas.",
+        "Si school-service falla, sincronización queda pendiente/error visible y reintentable."
+      ],
+      "status": "Pendiente",
+      "priority": "P1",
+      "issue_url": "https://github.com/vmorenov/Vq-school-backend/issues/24",
+      "issue_number": 24,
+      "frontend_tasks": [
+        {
+          "id": "FE-12",
+          "url": "https://github.com/vmorenov/Va-school-app/issues/13"
+        }
+      ],
+      "backend_scope": "Reglas de dominio, contratos, autorización, persistencia o infraestructura; coordinación de aceptación integral."
+    },
+    {
+      "id": "HU-25",
+      "title": "Consultar resultados y entregas",
+      "epic": "E05",
+      "phase": "R2",
+      "points": 3,
+      "dependencies": [
+        "HU-24"
+      ],
+      "role": "alumno y profesor",
+      "value": "comprender resultados y pendientes",
+      "criteria": [
+        "Alumno sólo consulta su intento y retroalimentación liberada.",
+        "Docente filtra entregados/en curso/vencidos/no iniciados de sus cursos.",
+        "No iniciado difiere de cero y no genera nota automática.",
+        "Soluciones visibles sólo después de cierre y liberación; listados paginados y autorizados."
+      ],
+      "status": "Pendiente",
+      "priority": "P1",
+      "issue_url": "https://github.com/vmorenov/Vq-school-backend/issues/25",
+      "issue_number": 25,
+      "frontend_tasks": [
+        {
+          "id": "FE-12",
+          "url": "https://github.com/vmorenov/Va-school-app/issues/13"
+        }
+      ],
+      "backend_scope": "Reglas de dominio, contratos, autorización, persistencia o infraestructura; coordinación de aceptación integral."
+    },
+    {
+      "id": "HU-26",
+      "title": "Configurar identidad y estructura del sitio",
+      "epic": "E06",
+      "phase": "R2",
+      "points": 3,
+      "dependencies": [
+        "HU-04",
+        "HU-07"
+      ],
+      "role": "administrador",
+      "value": "presentar mi establecimiento",
+      "criteria": [
+        "Configurar logo, colores accesibles, contacto, descripción, menú y slug único.",
+        "Plantilla con inicio, colegio, noticias y contacto; sin scripts/CSS arbitrarios ni plugins.",
+        "Imágenes públicas validadas y separadas de archivos privados.",
+        "Vista previa privada no publica cambios ni incluye expedientes."
+      ],
+      "status": "Pendiente",
+      "priority": "P1",
+      "issue_url": "https://github.com/vmorenov/Vq-school-backend/issues/26",
+      "issue_number": 26,
+      "frontend_tasks": [
+        {
+          "id": "FE-13",
+          "url": "https://github.com/vmorenov/Va-school-app/issues/14"
+        }
+      ],
+      "backend_scope": "Reglas de dominio, contratos, autorización, persistencia o infraestructura; coordinación de aceptación integral."
+    },
+    {
+      "id": "HU-27",
+      "title": "Editar y publicar páginas y noticias",
+      "epic": "E06",
+      "phase": "R2",
+      "points": 5,
+      "dependencies": [
+        "HU-26"
+      ],
+      "role": "administrador y visitante",
+      "value": "mantener contenido público actualizado",
+      "criteria": [
+        "Borrador/publicado/archivado con vista previa autorizada y autor de publicación.",
+        "Sanitización servidor elimina scripts, atributos y URLs peligrosas.",
+        "Visitante sólo obtiene publicado del slug; borradores ausentes de API, HTML y caché.",
+        "Rutas públicas entregan HTML indexable mediante SSR/prerender con título, descripción y sitemap.",
+        "Archivar invalida caché y registra revisión; rutas inexistentes devuelven 404."
+      ],
+      "status": "Pendiente",
+      "priority": "P1",
+      "issue_url": "https://github.com/vmorenov/Vq-school-backend/issues/27",
+      "issue_number": 27,
+      "frontend_tasks": [
+        {
+          "id": "FE-13",
+          "url": "https://github.com/vmorenov/Va-school-app/issues/14"
+        }
+      ],
+      "backend_scope": "Reglas de dominio, contratos, autorización, persistencia o infraestructura; coordinación de aceptación integral."
+    },
+    {
+      "id": "HU-28",
+      "title": "Enviar avisos masivos por rol y curso",
+      "epic": "E07",
+      "phase": "R2",
+      "points": 5,
+      "dependencies": [
+        "HU-06",
+        "HU-40"
+      ],
+      "role": "administrador",
+      "value": "comunicar avisos segmentados",
+      "criteria": [
+        "Seleccionar roles/curso, redactar y confirmar resumen con cantidad de destinatarios.",
+        "Servidor resuelve membresías activas del colegio, congela destinatarios y deduplica multirrol.",
+        "Campaña idempotente y asíncrona muestra pendiente/enviado/error por canal.",
+        "Sólo administrador de ese colegio; texto sanitizado, sin adjuntar expedientes.",
+        "Desactivados no reciben nuevos envíos; fallo individual no bloquea otros."
+      ],
+      "status": "Pendiente",
+      "priority": "P1",
+      "issue_url": "https://github.com/vmorenov/Vq-school-backend/issues/28",
+      "issue_number": 28,
+      "frontend_tasks": [
+        {
+          "id": "FE-14",
+          "url": "https://github.com/vmorenov/Va-school-app/issues/15"
+        }
+      ],
+      "backend_scope": "Reglas de dominio, contratos, autorización, persistencia o infraestructura; coordinación de aceptación integral."
+    },
+    {
+      "id": "HU-29",
+      "title": "Consultar bandeja de notificaciones",
+      "epic": "E07",
+      "phase": "R2",
+      "points": 3,
+      "dependencies": [
+        "HU-28"
+      ],
+      "role": "usuario",
+      "value": "recibir y revisar comunicaciones",
+      "criteria": [
+        "Bandeja propia del colegio activo con paginación, fecha y estado.",
+        "Marcar leído es idempotente y no implica entrega externa ni aceptación de citación.",
+        "Enlace interno revalida permiso de destino.",
+        "Membresía desactivada no recupera avisos con sesión previa."
+      ],
+      "status": "Pendiente",
+      "priority": "P1",
+      "issue_url": "https://github.com/vmorenov/Vq-school-backend/issues/29",
+      "issue_number": 29,
+      "frontend_tasks": [
+        {
+          "id": "FE-14",
+          "url": "https://github.com/vmorenov/Va-school-app/issues/15"
+        }
+      ],
+      "backend_scope": "Reglas de dominio, contratos, autorización, persistencia o infraestructura; coordinación de aceptación integral."
+    },
+    {
+      "id": "HU-30",
+      "title": "Enviar correos transaccionales y a apoderados",
+      "epic": "E07",
+      "phase": "R3",
+      "points": 5,
+      "dependencies": [
+        "HU-10",
+        "HU-28",
+        "HU-40"
+      ],
+      "role": "personal autorizado",
+      "value": "entregar invitaciones y citaciones",
+      "criteria": [
+        "SMTP de Keycloak para acceso y worker de communication para avisos, sin secretos frontend.",
+        "Contacto responsable validado; sin correo queda entrega manual pendiente.",
+        "Registrar intentos y aceptación del proveedor; no afirmar lectura; rebotes sólo con webhook autenticado.",
+        "Backoff y límite de reintentos con control de duplicados y fallos visibles.",
+        "Correo mínimo sin notas, respuestas ni observaciones disciplinarias; detalles en canal autorizado."
+      ],
+      "status": "Pendiente",
+      "priority": "P1",
+      "issue_url": "https://github.com/vmorenov/Vq-school-backend/issues/30",
+      "issue_number": 30,
+      "frontend_tasks": [
+        {
+          "id": "FE-14",
+          "url": "https://github.com/vmorenov/Va-school-app/issues/15"
+        }
+      ],
+      "backend_scope": "Reglas de dominio, contratos, autorización, persistencia o infraestructura; coordinación de aceptación integral."
+    },
+    {
+      "id": "HU-31",
+      "title": "Registrar observaciones de convivencia",
+      "epic": "E08",
+      "phase": "R3",
+      "points": 5,
+      "dependencies": [
+        "HU-10",
+        "HU-07"
+      ],
+      "role": "inspector",
+      "value": "documentar anotaciones del alumno",
+      "criteria": [
+        "Observación positiva/negativa/informativa con fecha, autor y alumno del colegio.",
+        "Anotación es distinta de calificación y nunca cambia promedios.",
+        "Por defecto interna a inspectores; versión expresamente visible sólo al alumno afectado.",
+        "Corrección/anulación con motivo e historial, sin borrado destructivo.",
+        "No accesible a compañeros ni docentes no autorizados ni otro colegio."
+      ],
+      "status": "Pendiente",
+      "priority": "P1",
+      "issue_url": "https://github.com/vmorenov/Vq-school-backend/issues/31",
+      "issue_number": 31,
+      "frontend_tasks": [
+        {
+          "id": "FE-15",
+          "url": "https://github.com/vmorenov/Va-school-app/issues/16"
+        }
+      ],
+      "backend_scope": "Reglas de dominio, contratos, autorización, persistencia o infraestructura; coordinación de aceptación integral."
+    },
+    {
+      "id": "HU-32",
+      "title": "Registrar retiros y retornos de alumnos",
+      "epic": "E08",
+      "phase": "R3",
+      "points": 5,
+      "dependencies": [
+        "HU-10"
+      ],
+      "role": "inspector",
+      "value": "documentar salidas de la jornada",
+      "criteria": [
+        "Registrar alumno/hora/motivo/persona que retira y verificación de autorización; registro no sustituye control físico.",
+        "No dos salidas abiertas simultáneas; control de concurrencia.",
+        "Persona no autorizada exige resolución explícita del responsable designado y motivo, nunca aprobación automática.",
+        "Retorno o anulación con motivo; distinguir salida definitiva del día.",
+        "No cambia asistencia histórica automáticamente; resumen diario por colegio."
+      ],
+      "status": "Pendiente",
+      "priority": "P1",
+      "issue_url": "https://github.com/vmorenov/Vq-school-backend/issues/32",
+      "issue_number": 32,
+      "frontend_tasks": [
+        {
+          "id": "FE-15",
+          "url": "https://github.com/vmorenov/Va-school-app/issues/16"
+        }
+      ],
+      "backend_scope": "Reglas de dominio, contratos, autorización, persistencia o infraestructura; coordinación de aceptación integral."
+    },
+    {
+      "id": "HU-33",
+      "title": "Gestionar citaciones de apoderados",
+      "epic": "E08",
+      "phase": "R3",
+      "points": 5,
+      "dependencies": [
+        "HU-10",
+        "HU-30"
+      ],
+      "role": "inspector",
+      "value": "coordinar reuniones y seguimiento",
+      "criteria": [
+        "Registrar alumno/contacto/motivo interno/fecha/hora/lugar/convocante.",
+        "Estados borrador, emitida, confirmada manualmente, realizada, no asistió y cancelada con historial.",
+        "Email o constancia imprimible no confirma recepción; confirmación registra responsable/evidencia mínima.",
+        "Reprogramar crea revisión y aviso, sin duplicar; cierre con resultado interno.",
+        "Apoderado sin cuenta de portal; enlaces públicos nunca exponen expediente del menor."
+      ],
+      "status": "Pendiente",
+      "priority": "P1",
+      "issue_url": "https://github.com/vmorenov/Vq-school-backend/issues/33",
+      "issue_number": 33,
+      "frontend_tasks": [
+        {
+          "id": "FE-15",
+          "url": "https://github.com/vmorenov/Va-school-app/issues/16"
+        }
+      ],
+      "backend_scope": "Reglas de dominio, contratos, autorización, persistencia o infraestructura; coordinación de aceptación integral."
+    },
+    {
+      "id": "HU-34",
+      "title": "Consultar auditoría de operaciones sensibles",
+      "epic": "E09",
+      "phase": "R3",
+      "points": 5,
+      "dependencies": [
+        "HU-07"
+      ],
+      "role": "administrador autorizado",
+      "value": "investigar cambios trazables",
+      "criteria": [
+        "Notas/asistencia/roles/publicaciones/observaciones/retiros/citaciones guardan actor/colegio/instante/entidad/acción/correlationId.",
+        "Auditoría y cambio sensible son transaccionales; fallo de auditoría impide confirmar cambio.",
+        "Sin edición/borrado por API; detalle exige permiso de dominio además de consulta de auditoría.",
+        "Logs sin tokens/contraseñas/respuestas/expedientes; retención acordada antes de datos reales.",
+        "Consulta por fecha/actor acotada y paginada."
+      ],
+      "status": "Pendiente",
+      "priority": "P1",
+      "issue_url": "https://github.com/vmorenov/Vq-school-backend/issues/34",
+      "issue_number": 34,
+      "frontend_tasks": [
+        {
+          "id": "FE-16",
+          "url": "https://github.com/vmorenov/Va-school-app/issues/17"
+        }
+      ],
+      "backend_scope": "Reglas de dominio, contratos, autorización, persistencia o infraestructura; coordinación de aceptación integral."
+    },
+    {
+      "id": "HU-35",
+      "title": "Validar seguridad, aislamiento y privacidad",
+      "epic": "E09",
+      "phase": "R3",
+      "points": 8,
+      "dependencies": [
+        "HU-07",
+        "HU-19",
+        "HU-27",
+        "HU-34"
+      ],
+      "role": "responsable del piloto",
+      "value": "proteger datos escolares",
+      "criteria": [
+        "Pruebas negativas con dos colegios cubren IDOR, elevación, CSRF, XSS y exposición de soluciones.",
+        "Revocación, archivos maliciosos, tokens inválidos y acceso interno no autorizado se rechazan.",
+        "Inventario de datos/propósito/acceso/retención aprobado por colegio antes de menores reales.",
+        "Backups, capturas, fixtures y repos públicos sin secretos ni datos reales.",
+        "Sin vulnerabilidades críticas/altas explotables pendientes en alcance; no se declara certificación legal."
+      ],
+      "status": "Pendiente",
+      "priority": "P1",
+      "issue_url": "https://github.com/vmorenov/Vq-school-backend/issues/35",
+      "issue_number": 35,
+      "frontend_tasks": [
+        {
+          "id": "FE-17",
+          "url": "https://github.com/vmorenov/Va-school-app/issues/18"
+        }
+      ],
+      "backend_scope": "Reglas de dominio, contratos, autorización, persistencia o infraestructura; coordinación de aceptación integral."
+    },
+    {
+      "id": "HU-36",
+      "title": "Preparar infraestructura y recuperación del piloto",
+      "epic": "E01",
+      "phase": "R3",
+      "points": 8,
+      "dependencies": [
+        "HU-02",
+        "HU-03",
+        "HU-39"
+      ],
+      "role": "operador",
+      "value": "desplegar y recuperar el servicio",
+      "criteria": [
+        "IaC del proveedor elegido incluye host, redes/firewall, DNS/TLS y almacenamiento; staging aislado de producción.",
+        "Sólo HTTPS de aplicación/auth público; DB, Redis, almacenamiento privado y consolas no expuestos.",
+        "Secretos fuera de Git, cifrado en reposo según proveedor, límites y alertas de salud/error/ocupación.",
+        "Backup diario cifrado de DB/objetos restaurado en entorno aislado; objetivos piloto RPO 24h y RTO 4h medidos.",
+        "Keycloak productivo con issuer canónico, sin start-dev; rollback y migraciones compatibles ensayados."
+      ],
+      "status": "Pendiente",
+      "priority": "P1",
+      "issue_url": "https://github.com/vmorenov/Vq-school-backend/issues/36",
+      "issue_number": 36,
+      "frontend_tasks": [
+        {
+          "id": "FE-03",
+          "url": "https://github.com/vmorenov/Va-school-app/issues/4"
+        },
+        {
+          "id": "FE-18",
+          "url": "https://github.com/vmorenov/Va-school-app/issues/19"
+        }
+      ],
+      "backend_scope": "Reglas de dominio, contratos, autorización, persistencia o infraestructura; coordinación de aceptación integral."
+    },
+    {
+      "id": "HU-37",
+      "title": "Validar piloto integral y experiencia de uso",
+      "epic": "E09",
+      "phase": "R3",
+      "points": 8,
+      "dependencies": [
+        "HU-13",
+        "HU-16",
+        "HU-18",
+        "HU-20",
+        "HU-25",
+        "HU-27",
+        "HU-29",
+        "HU-31",
+        "HU-32",
+        "HU-33",
+        "HU-35",
+        "HU-36",
+        "HU-38"
+      ],
+      "role": "equipo del colegio",
+      "value": "aceptar el MVP con flujos reales",
+      "criteria": [
+        "Demostrar colegio/usuarios → matrícula/horario → notas/asistencia → material/test → respuesta/corrección → comunicación/inspector.",
+        "Cuatro perfiles validan móvil/escritorio y teclado/foco/contraste/formularios con objetivo WCAG 2.2 AA.",
+        "Carga propuesta: 100 usuarios concurrentes, 50 intentos simultáneos, lectura API p95 <700ms y errores <1%, sin upload/SMTP.",
+        "Ensayar desconexión de prueba, entrega concurrente, correo caído y restauración; sin pérdida de respuestas confirmadas.",
+        "Acta del colegio registra aceptación y pendientes; código o CI aprobado no equivale a MVP entregado."
+      ],
+      "status": "Pendiente",
+      "priority": "P1",
+      "issue_url": "https://github.com/vmorenov/Vq-school-backend/issues/37",
+      "issue_number": 37,
+      "frontend_tasks": [
+        {
+          "id": "FE-17",
+          "url": "https://github.com/vmorenov/Va-school-app/issues/18"
+        },
+        {
+          "id": "FE-18",
+          "url": "https://github.com/vmorenov/Va-school-app/issues/19"
+        }
+      ],
+      "backend_scope": "Reglas de dominio, contratos, autorización, persistencia o infraestructura; coordinación de aceptación integral."
+    },
+    {
+      "id": "HU-38",
+      "title": "Consultar reportes básicos y exportar",
+      "epic": "E04",
+      "phase": "R3",
+      "points": 5,
+      "dependencies": [
+        "HU-15",
+        "HU-17",
+        "HU-31",
+        "HU-32"
+      ],
+      "role": "profesor e inspector",
+      "value": "revisar datos de mi ámbito",
+      "criteria": [
+        "Profesor reporta notas/asistencia de cursos asignados; inspector observaciones/retiros del colegio.",
+        "Filtros de período/curso/fecha y límites en exportaciones; auditoría del actor y alcance.",
+        "CSV neutraliza fórmulas y nunca mezcla colegios.",
+        "Administrador sin rol de dominio no recibe expedientes; reportes no se presentan como certificados oficiales."
+      ],
+      "status": "Pendiente",
+      "priority": "P1",
+      "issue_url": "https://github.com/vmorenov/Vq-school-backend/issues/38",
+      "issue_number": 38,
+      "frontend_tasks": [
+        {
+          "id": "FE-16",
+          "url": "https://github.com/vmorenov/Va-school-app/issues/17"
+        }
+      ],
+      "backend_scope": "Reglas de dominio, contratos, autorización, persistencia o infraestructura; coordinación de aceptación integral."
+    },
+    {
+      "id": "HU-39",
+      "title": "Provisionar almacenamiento y ciclo de archivos",
+      "epic": "E01",
+      "phase": "R0",
+      "points": 5,
+      "dependencies": [
+        "HU-02",
+        "HU-04"
+      ],
+      "role": "operador y docente",
+      "value": "conservar recursos con acceso controlado",
+      "criteria": [
+        "S3 compatible separa recursos públicos/privados; claves por colegio e ID aleatorio.",
+        "Cuarentena y escaneo, cuotas y limpieza de cargas incompletas; job reconcilia metadata/objeto.",
+        "Carga fallida nunca publicable; retiro respeta historial y retención.",
+        "Backup/restauración conserva asociación; URLs firmadas no se registran en logs públicos."
+      ],
+      "status": "Pendiente",
+      "priority": "P0",
+      "issue_url": "https://github.com/vmorenov/Vq-school-backend/issues/39",
+      "issue_number": 39,
+      "frontend_tasks": [
+        {
+          "id": "FE-09",
+          "url": "https://github.com/vmorenov/Va-school-app/issues/10"
+        }
+      ],
+      "backend_scope": "Reglas de dominio, contratos, autorización, persistencia o infraestructura; coordinación de aceptación integral."
+    },
+    {
+      "id": "HU-40",
+      "title": "Integrar servicios con contratos e idempotencia",
+      "epic": "E01",
+      "phase": "R0",
+      "points": 8,
+      "dependencies": [
+        "HU-01",
+        "HU-04",
+        "HU-05"
+      ],
+      "role": "equipo técnico",
+      "value": "resistir fallos parciales",
+      "criteria": [
+        "OpenAPI versionado define DTO/errores/paginación/auth; ningún servicio consulta tablas ajenas.",
+        "school expone decisiones de membresía/curso/asignatura/relación; consumidores fallan cerrado si no responde.",
+        "Eventos y cambio se guardan en outbox transaccional; worker entrega por HTTP interno autenticado.",
+        "communication deduplica eventId/destinatario; reintentos con backoff y cola de fallos visible.",
+        "Client credentials sólo técnico; no sustituye identidad de usuario para expedientes; correlationId y pruebas de contrato ante caídas."
+      ],
+      "status": "En progreso (base parcial)",
+      "priority": "P0",
+      "issue_url": "https://github.com/vmorenov/Vq-school-backend/issues/40",
+      "issue_number": 40,
+      "frontend_tasks": [
+        {
+          "id": "FE-02",
+          "url": "https://github.com/vmorenov/Va-school-app/issues/3"
+        }
+      ],
+      "backend_scope": "Reglas de dominio, contratos, autorización, persistencia o infraestructura; coordinación de aceptación integral."
+    }
+  ],
+  "frontend_repository": "vmorenov/Va-school-app"
+}

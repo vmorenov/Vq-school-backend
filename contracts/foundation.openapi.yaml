@@ -1,0 +1,75 @@
+openapi: 3.0.3
+info:
+  title: VQ School foundation BFF
+  version: 0.1.0
+  description: Initial session and capability endpoints only. School business APIs remain pending.
+servers:
+  - url: http://localhost:8080
+paths:
+  /api/v1/session:
+    get:
+      operationId: getSession
+      responses:
+        '200':
+          description: Session status, never tokens
+          content:
+            application/json:
+              schema:
+                oneOf:
+                  - type: object
+                    required: [authenticated]
+                    properties:
+                      authenticated: {type: boolean, enum: [false]}
+                  - type: object
+                    required: [authenticated, subject, displayName, membershipReady]
+                    properties:
+                      authenticated: {type: boolean, enum: [true]}
+                      subject: {type: string}
+                      displayName: {type: string}
+                      membershipReady: {type: boolean, enum: [false]}
+  /api/v1/csrf:
+    get:
+      operationId: getCsrfToken
+      responses:
+        '200':
+          description: Session-bound token for browser mutations including POST logout
+          content:
+            application/json:
+              schema:
+                type: object
+                required: [token, parameterName, headerName]
+                properties:
+                  token: {type: string}
+                  parameterName: {type: string}
+                  headerName: {type: string}
+  /api/v1/platform/{service}:
+    get:
+      operationId: getCapability
+      security: [{sessionCookie: []}]
+      parameters:
+        - name: service
+          in: path
+          required: true
+          schema: {type: string, enum: [school, learning, communication]}
+      responses:
+        '200':
+          description: Authenticated technical capability; no student data
+          content:
+            application/json:
+              schema:
+                type: object
+                required: [service, domain, stage, businessFeaturesReady]
+                properties:
+                  service: {type: string}
+                  domain: {type: string}
+                  stage: {type: string, enum: [foundation]}
+                  businessFeaturesReady: {type: boolean, enum: [false]}
+        '401': {description: Login required}
+        '404': {description: Unknown service}
+        '503': {description: Downstream unavailable}
+components:
+  securitySchemes:
+    sessionCookie:
+      type: apiKey
+      in: cookie
+      name: VQSESSION

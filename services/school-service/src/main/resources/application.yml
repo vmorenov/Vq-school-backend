@@ -1,0 +1,19 @@
+server:
+  port: ${PORT:8081}
+spring:
+  application:
+    name: school-service
+security:
+  issuer: ${OIDC_ISSUER:http://localhost:8080/auth/realms/vq-school}
+  jwk-uri: ${OIDC_JWK_URI:http://localhost:8080/auth/realms/vq-school/protocol/openid-connect/certs}
+  audience: school-api
+management:
+  endpoints:
+    web:
+      exposure:
+        include: health
+  endpoint:
+    health:
+      probes:
+        enabled: true
+      show-details: never
