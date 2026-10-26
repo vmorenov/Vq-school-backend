@@ -1,7 +1,7 @@
 # Plan de entrega y aceptación
 
 ## Estado real de la línea base
-Entregado: definición de alcance, arquitectura, reglas, historias y organización en GitHub. Pendiente: todo código funcional, Docker Compose ejecutable, infraestructura aprovisionada, reglas de protección y pruebas de runtime. Este documento no certifica que la plataforma funcione.
+Entregado: definición y primera implementación de fundaciones en dos repositorios. El detalle de pruebas y limitaciones está en [estado de implementación](09-estado-implementacion.md). Las funcionalidades escolares, membresías, persistencia, hardening productivo y protección de ramas siguen pendientes. Esta base no equivale al MVP terminado.
 
 ## Incrementos
 Todos forman parte del MVP completo. P0 y P1 priorizan el orden; P1 no significa fuera de alcance.

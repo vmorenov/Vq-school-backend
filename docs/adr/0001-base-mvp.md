@@ -1,5 +1,5 @@
 # ADR-0001: monorepositorio y límites del MVP
-Estado: propuesto como base de implementación. Fecha: 2026-10-25.
+Estado: decisión histórica. Distribución de repositorios/frontend sustituida por [ADR-0002](0002-dos-repositorios-microfrontends.md); conservar para trazabilidad, no implementar sus decisiones 1 y alternativa de repositorios. Fecha: 2026-10-25.
 
 ## Contexto
 Hay dos repositorios nuevos, pero el requisito de producto solicita React y Java en un monorepositorio con microservicios Docker. La operación maneja datos escolares, pruebas con plazos y múltiples roles.

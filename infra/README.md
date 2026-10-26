@@ -1,43 +1,34 @@
-# Infraestructura objetivo
+# Entorno local integrado
 
-**Diseño pendiente de implementación en HU-02, HU-03, HU-36 y HU-39.** No hay despliegue ejecutable en esta línea base.
+## Requisitos y arranque
+Docker Engine + Compose v2, Python 3 y ambos repositorios como carpetas hermanas, en las ramas de esta entrega:
 
-## Topología propuesta
-Piloto en host Linux Docker Engine + Compose. Staging y producción separados; bases/secretos/volúmenes y datos independientes. Proveedor y región por decidir con el colegio. No se contrata infraestructura en esta entrega.
+```sh
+git clone --branch feat/platform-foundation https://github.com/vmorenov/Vq-school-backend.git
+git clone --branch feat/microfrontend-foundation https://github.com/vmorenov/Va-school-app.git
+cd Vq-school-backend
+python3 infra/init-local.py
+docker compose --env-file infra/.env -f infra/compose.yaml up --build -d
+python3 infra/smoke-local.py
+```
 
-| Unidad | Red y persistencia |
-|---|---|
-| Reverse proxy | Única entrada HTTPS 443; 80 sólo redirección/validación TLS según mecanismo |
-| Web React | Acceso vía proxy, sin secretos; SSR/prerender de páginas públicas |
-| BFF | Sólo proxy; Redis con sesiones/tokens y políticas de expiración |
-| School/Learning/Communication | Red interna; endpoints técnicos con credenciales/scopes limitados |
-| PostgreSQL | Red privada, cuatro bases/usuarios separados (tres dominios + Keycloak) |
-| Keycloak | Autenticación HTTPS, consola administrativa restringida; hostname canónico |
-| S3 compatible | Buckets privados/material y públicos/CMS separados, cuarentena |
-| Escáner archivos | Red privada, cola/estado de escaneo y actualización de firmas |
-| Worker de correo | Credenciales SMTP privadas, reintento e idempotencia |
-| Observabilidad | Logs estructurados, métricas y alertas privadas |
-| Backup | Destino cifrado fuera del host, credencial y retención propias |
+Abrir http://localhost:8080 (portal), http://localhost:8080/public/ (sitio) y http://localhost:8080/auth/admin/ (Keycloak local). Usuario sintético `demo.student`; contraseña aleatoria en `infra/.env`, clave DEMO_STUDENT_PASSWORD. No copiar contraseñas a issues o capturas. Administrador local `local-admin`, contraseña aleatoria del mismo archivo.
 
-## Archivos a producir durante implementación
-- compose.yaml para desarrollo, con healthchecks, perfiles y volúmenes.
-- compose.staging.yaml y compose.production.yaml o paquetes equivalentes probados.
-- .env.example con nombres y valores ficticios; secretos mediante archivos montados/gestor, nunca valores reales en Git.
-- Keycloak realm/client bootstrap sin usuarios reales ni secretos exportados.
-- IaC declarativa del proveedor seleccionado (OpenTofu/Terraform o equivalente) y procedimiento de aprovisionamiento.
-- Scripts de migración, backup, restauración y smoke test.
-- Runbook de incidentes y manifiesto de versiones/digests desplegados.
+El realm se importa sólo al crear el entorno. Si cambias secretos/realm, no esperes que Keycloak modifique un realm ya existente: aplica la modificación administrativa o recrea **sólo el volumen de desarrollo** conscientemente. `docker compose ... down` conserva datos; `down -v` los elimina. init-local nunca sobrescribe un .env existente.
 
-## Seguridad operacional
-No mapear a 0.0.0.0 puertos de DB/Redis/storage/administración. Firewall de mínimo acceso; SSH si existe, restringido a operadores autorizados. TLS válido en staging/producción. Keycloak start-dev sólo en local. Certificados/hostnames consistentes con issuer; no desactivar validación SSL para arreglar un error.
+La única entrada publicada es 127.0.0.1:8080. HTTP, COOKIE_SECURE=false, sslRequired=none y start-dev son exclusivamente locales. No usar este Compose en Internet ni con datos reales. Backend y Keycloak usan issuer público consistente y JWKS/token endpoints internos. Credenciales generadas localmente y excluidas de Git.
 
-Contenedores no root cuando soportado, imágenes fijadas, límites CPU/memoria, health/readiness, política de reinicio, espacio y rotación de logs. Secrets de Compose limitan exposición por servicio pero no sustituyen cifrado en reposo ni un gestor de secretos productivo.
+## Alcance implementado
+Cuatro aplicaciones Java, Keycloak con PostgreSQL, shell, dos remotos y web pública. Endpoints de salud y capacidades autenticadas; sesiones en memoria del BFF (reiniciar exige login). No hay datos escolares ni autorización de membresías implementados, ni persistencia de los tres dominios, Redis, outbox, escáner o S3 todavía. Las HU correspondientes permanecen abiertas.
 
-## Promoción
-Feature PR → develop con CI → staging con integración y E2E → master con aprobación de despliegue. Construir una vez y promover digest. Bases con migración previa compatible; un rollback de imagen no deshace un cambio de esquema. El README debe ofrecer instrucciones reales únicamente cuando existan esos comandos.
+## Comprobar independencia
+Cambiar el texto de `Va-school-app/apps/learning/src/App.tsx` y ejecutar desde backend:
 
-## Recuperación
-Backup diario consistente de bases y objetos con retención propuesta de 30 días, pendiente de política del colegio. Backups cifrados fuera del host y verificación periódica. Restauración aislada y smoke funcional para medir RPO 24h y RTO 4h. Recuperar Keycloak/configuración junto con datos de identidades; no restaurar secretos obsoletos indiscriminadamente. Borrado físico y política de retención requieren acuerdo previo.
+```sh
+docker compose --env-file infra/.env -f infra/compose.yaml up -d --build --no-deps learning-web
+```
 
-## Coste y capacidad
-Sin estimación de factura hasta elegir proveedor/región, disponibilidad y cantidad de alumnos. Medir memoria de cuatro JVM + Keycloak, DB, storage/escáner y margen antes de fijar tamaño. No se asume que todos los componentes caben en una VM pequeña ni se promete un precio mensual.
+Recargar Aprendizaje: no se reconstruyen shell/academic. Detener learning-web y abrir esa sección debe activar el fallback del shell; Académico permanece utilizable. remoteEntry y manifiesto no se cachean; assets con hash son inmutables. Para producción se necesitan releases versionadas y conservar assets de la versión anterior; no se promete disponibilidad sin interrupción en este Compose.
+
+## Pendiente antes de piloto
+Completar membresías/RBAC, persistencia, MFA y recuperación, Redis, healthchecks completos, TLS, secretos gestionados, escaneo, backups restaurados, despliegue productivo e IaC. Staging/producción no se aprovisionaron. La protección de ramas sigue pendiente. Consultar docs/09-estado-implementacion.md para validaciones efectivamente ejecutadas.

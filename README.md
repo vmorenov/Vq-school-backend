@@ -1,41 +1,28 @@
-# VQ School — base del MVP
+# VQ School — backend e infraestructura
 
-Plataforma escolar con sitio público administrable y portal privado para alumnos, profesores, administradores e inspectores.
+Monorepositorio Java 21 / Spring Boot con BFF y tres servicios: School, Learning y Communication. El frontend está en [Va-school-app](https://github.com/vmorenov/Va-school-app/tree/feat/microfrontend-foundation), un repositorio activo con shell React y dos microfrontends.
 
-**Estado: alcance, arquitectura y backlog registrados; funcionalidades todavía no implementadas.** Esta entrega es la línea base para construir el MVP. No existe aún una aplicación desplegable ni se han ejecutado pruebas de runtime.
+**Estado: primera base técnica implementada; MVP funcional pendiente.** No hay datos escolares reales ni operaciones académicas implementadas. Sesión BFF en memoria; membresías, persistencia, MFA y entorno productivo siguen en backlog.
 
-## Leer primero
+## Arranque y pruebas
+Requiere Java 21 y Maven 3.9+ para `mvn verify`. Para el stack integrado, seguir [infra/README.md](infra/README.md): ambos checkouts hermanos, Python 3 y Docker Compose v2. No se necesita copiar IDs manualmente; el usuario de demostración es sintético y la contraseña se genera localmente.
 
-1. [Alcance y reglas del MVP](docs/01-alcance-mvp.md)
-2. [Arquitectura y diagramas](docs/02-arquitectura.md)
-3. [Roles y seguridad](docs/03-roles-seguridad.md)
-4. [Modelo de datos y contratos](docs/04-datos-contratos.md)
-5. [Backlog de 40 HU](docs/05-backlog.md)
-6. [Incrementos y aceptación](docs/06-plan-entrega.md)
-7. [Infraestructura y operación](infra/README.md)
-8. [Decisiones de arquitectura](docs/adr/0001-base-mvp.md)
-9. [Fuentes técnicas](docs/07-fuentes.md)
+```sh
+mvn -B -ntp verify
+python3 scripts/check_backlog.py
+```
 
-## Monorepositorio canónico
+## Código
+- `services/bff`: login OIDC/PKCE, cookie HttpOnly, CSRF, logout y proxy limitado de capacidades.
+- `services/school-service`, `learning-service`, `communication-service`: health y capacidades autenticadas; sin endpoints de expedientes todavía.
+- `libraries/security`: validación issuer/audiencia/vigencia y configuración de resource server.
+- `infra`: Compose local, realm sintético, proxy y generación local de secretos.
+- `contracts`: contrato OpenAPI inicial; `docs`: alcance y backlog.
 
-Se utilizará **vmorenov/Vq-school-backend** como monorepositorio de producto, conservando el nombre existente:
-- `apps/web`: React + TypeScript, web pública y portal.
-- `services/bff`: Java, sesión web y enrutamiento.
-- `services/school-service`: establecimiento, usuarios, academia e inspectoría.
-- `services/learning-service`: material, pruebas e intentos.
-- `services/communication-service`: CMS, bandeja y entrega de notificaciones.
-- `contracts`: OpenAPI y eventos.
-- `infra`: Compose, configuración y futura IaC.
-- `docs`: alcance, arquitectura, decisiones y backlog.
+## Documentación
+- [Alcance MVP](docs/01-alcance-mvp.md), [arquitectura](docs/02-arquitectura.md) y [roles](docs/03-roles-seguridad.md).
+- [40 HU](docs/05-backlog.md) y [distribución con 18 tareas frontend](docs/08-distribucion-repositorios.md).
+- [ADR vigente: dos repositorios y microfrontends](docs/adr/0002-dos-repositorios-microfrontends.md).
+- [Validaciones, límites y siguientes pasos](docs/09-estado-implementacion.md).
 
-Estas rutas son **la estructura objetivo**, no módulos de software ya disponibles. Un monorepositorio comparte código fuente y versionado; cada servicio tendrá imagen y despliegue independiente.
-
-El repositorio **vmorenov/Va-school-app** queda como punto de referencia hacia este monorepositorio; no se elimina ni archiva. No habrá dos copias activas del frontend.
-
-## Trabajo y ramas
-
-`feature/* → PR a develop → PR a staging → PR a master`. La rama `main` original se conserva. La protección de ramas sigue **pendiente de configuración**; no se considera aplicada. Esta base se entrega en una rama de trabajo mediante PR, sin push directo a develop, staging o master.
-
-## Límites de esta entrega
-
-No contiene secretos, cuentas reales, datos de estudiantes ni valores de infraestructura contratada. Las HU están pendientes; crear documentos/issues no las implementa. Se requiere aprobar reglas académicas, proveedor y políticas de datos con el colegio piloto antes de cargar datos reales.
+Cambios mediante PR a develop, sin push directo a develop/staging/master. Protección de ramas aún pendiente de aplicar/verificar. Nunca cargar secretos, datos de menores ni capturas reales en este repositorio público.

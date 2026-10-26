@@ -1,0 +1,78 @@
+{
+  "realm": "vq-school",
+  "enabled": true,
+  "displayName": "VQ School \u00b7 Local",
+  "registrationAllowed": false,
+  "resetPasswordAllowed": false,
+  "sslRequired": "none",
+  "bruteForceProtected": true,
+  "loginWithEmailAllowed": false,
+  "roles": {
+    "realm": [
+      {
+        "name": "STUDENT"
+      },
+      {
+        "name": "TEACHER"
+      },
+      {
+        "name": "ADMIN"
+      },
+      {
+        "name": "INSPECTOR"
+      }
+    ]
+  },
+  "clients": [
+    {
+      "clientId": "school-bff",
+      "name": "School BFF",
+      "enabled": true,
+      "publicClient": false,
+      "secret": "${VQ_BFF_SECRET}",
+      "standardFlowEnabled": true,
+      "directAccessGrantsEnabled": false,
+      "serviceAccountsEnabled": false,
+      "redirectUris": [
+        "http://localhost:8080/login/oauth2/code/keycloak"
+      ],
+      "webOrigins": [
+        "http://localhost:8080"
+      ],
+      "attributes": {
+        "pkce.code.challenge.method": "S256",
+        "post.logout.redirect.uris": "http://localhost:8080/"
+      },
+      "protocolMappers": [
+        {
+          "name": "school-api-audience",
+          "protocol": "openid-connect",
+          "protocolMapper": "oidc-audience-mapper",
+          "config": {
+            "included.custom.audience": "school-api",
+            "access.token.claim": "true",
+            "id.token.claim": "false"
+          }
+        }
+      ]
+    }
+  ],
+  "users": [
+    {
+      "username": "demo.student",
+      "enabled": true,
+      "firstName": "Alumno",
+      "lastName": "Demostraci\u00f3n",
+      "realmRoles": [
+        "STUDENT"
+      ],
+      "credentials": [
+        {
+          "type": "password",
+          "value": "${DEMO_STUDENT_PASSWORD}",
+          "temporary": false
+        }
+      ]
+    }
+  ]
+}

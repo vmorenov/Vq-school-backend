@@ -1,8 +1,8 @@
 {
   "schema_version": 1,
   "baseline_date": "2026-10-25",
-  "state": "planning",
-  "canonical_repository": "vmorenov/Vq-school-backend",
+  "state": "foundation-in-progress",
+  "canonical_repository": "vmorenov/Vq-school-backend (backend y coordinación funcional)",
   "epics": {
     "E01": "Plataforma e infraestructura",
     "E02": "Identidad, colegios y permisos",
@@ -23,16 +23,27 @@
       "points": 5,
       "dependencies": [],
       "role": "equipo técnico",
-      "value": "construir React y Java desde un checkout",
+      "value": "construir cada plataforma desde su repositorio y arrancarlas de forma integrada",
       "criteria": [
-        "React/TypeScript en apps/web y Maven multimódulo Java 21 en services; versiones exactas y lockfiles, sin latest.",
+        "React/TypeScript en Va-school-app y Maven multimódulo Java 21 en services de Vq-school-backend; versiones exactas y lockfiles, sin latest.",
         "Build, lint y pruebas reproducibles en CI y guía para un nuevo desarrollador.",
         "Cada servicio usa Dockerfile multi-stage y usuario no root; no comparte entidades JPA ni lógica de negocio."
       ],
-      "status": "Pendiente",
+      "status": "En progreso (base parcial)",
       "priority": "P0",
       "issue_url": "https://github.com/vmorenov/Vq-school-backend/issues/1",
-      "issue_number": 1
+      "issue_number": 1,
+      "frontend_tasks": [
+        {
+          "id": "FE-01",
+          "url": "https://github.com/vmorenov/Va-school-app/issues/2"
+        },
+        {
+          "id": "FE-02",
+          "url": "https://github.com/vmorenov/Va-school-app/issues/3"
+        }
+      ],
+      "backend_scope": "Reglas de dominio, contratos, autorización, persistencia o infraestructura; coordinación de aceptación integral."
     },
     {
       "id": "HU-02",
@@ -50,10 +61,17 @@
         "Bases lógicas y usuarios separados por servicio; volúmenes sobreviven reinicios.",
         "Seed exclusivamente ficticio de dos colegios y cuatro roles; smoke test de login y aislamiento; reset destructivo documentado."
       ],
-      "status": "Pendiente",
+      "status": "En progreso (base parcial)",
       "priority": "P0",
       "issue_url": "https://github.com/vmorenov/Vq-school-backend/issues/2",
-      "issue_number": 2
+      "issue_number": 2,
+      "frontend_tasks": [
+        {
+          "id": "FE-01",
+          "url": "https://github.com/vmorenov/Va-school-app/issues/2"
+        }
+      ],
+      "backend_scope": "Reglas de dominio, contratos, autorización, persistencia o infraestructura; coordinación de aceptación integral."
     },
     {
       "id": "HU-03",
@@ -72,10 +90,21 @@
         "Imágenes con SHA y mismo digest entre ambientes; aprobación de producción y secretos separados; forks sin secretos.",
         "Rollback de aplicación probado con migraciones compatibles; migraciones destructivas no se revierten automáticamente."
       ],
-      "status": "Pendiente",
+      "status": "En progreso (base parcial)",
       "priority": "P0",
       "issue_url": "https://github.com/vmorenov/Vq-school-backend/issues/3",
-      "issue_number": 3
+      "issue_number": 3,
+      "frontend_tasks": [
+        {
+          "id": "FE-03",
+          "url": "https://github.com/vmorenov/Va-school-app/issues/4"
+        },
+        {
+          "id": "FE-18",
+          "url": "https://github.com/vmorenov/Va-school-app/issues/19"
+        }
+      ],
+      "backend_scope": "Reglas de dominio, contratos, autorización, persistencia o infraestructura; coordinación de aceptación integral."
     },
     {
       "id": "HU-04",
@@ -97,7 +126,14 @@
       "status": "Pendiente",
       "priority": "P0",
       "issue_url": "https://github.com/vmorenov/Vq-school-backend/issues/4",
-      "issue_number": 4
+      "issue_number": 4,
+      "frontend_tasks": [
+        {
+          "id": "FE-05",
+          "url": "https://github.com/vmorenov/Va-school-app/issues/6"
+        }
+      ],
+      "backend_scope": "Reglas de dominio, contratos, autorización, persistencia o infraestructura; coordinación de aceptación integral."
     },
     {
       "id": "HU-05",
@@ -117,10 +153,17 @@
         "Logout invalida sesión BFF y SSO; renovación fallida vuelve a login; APIs validan firma, issuer, audiencia y vigencia.",
         "MFA obligatorio para personal; recuperación supervisada para alumnos sin exigir correo personal."
       ],
-      "status": "Pendiente",
+      "status": "En progreso (base parcial)",
       "priority": "P0",
       "issue_url": "https://github.com/vmorenov/Vq-school-backend/issues/5",
-      "issue_number": 5
+      "issue_number": 5,
+      "frontend_tasks": [
+        {
+          "id": "FE-04",
+          "url": "https://github.com/vmorenov/Va-school-app/issues/5"
+        }
+      ],
+      "backend_scope": "Reglas de dominio, contratos, autorización, persistencia o infraestructura; coordinación de aceptación integral."
     },
     {
       "id": "HU-06",
@@ -144,7 +187,14 @@
       "status": "Pendiente",
       "priority": "P0",
       "issue_url": "https://github.com/vmorenov/Vq-school-backend/issues/6",
-      "issue_number": 6
+      "issue_number": 6,
+      "frontend_tasks": [
+        {
+          "id": "FE-05",
+          "url": "https://github.com/vmorenov/Va-school-app/issues/6"
+        }
+      ],
+      "backend_scope": "Reglas de dominio, contratos, autorización, persistencia o infraestructura; coordinación de aceptación integral."
     },
     {
       "id": "HU-07",
@@ -168,7 +218,14 @@
       "status": "Pendiente",
       "priority": "P0",
       "issue_url": "https://github.com/vmorenov/Vq-school-backend/issues/7",
-      "issue_number": 7
+      "issue_number": 7,
+      "frontend_tasks": [
+        {
+          "id": "FE-04",
+          "url": "https://github.com/vmorenov/Va-school-app/issues/5"
+        }
+      ],
+      "backend_scope": "Reglas de dominio, contratos, autorización, persistencia o infraestructura; coordinación de aceptación integral."
     },
     {
       "id": "HU-08",
@@ -191,7 +248,14 @@
       "status": "Pendiente",
       "priority": "P0",
       "issue_url": "https://github.com/vmorenov/Vq-school-backend/issues/8",
-      "issue_number": 8
+      "issue_number": 8,
+      "frontend_tasks": [
+        {
+          "id": "FE-05",
+          "url": "https://github.com/vmorenov/Va-school-app/issues/6"
+        }
+      ],
+      "backend_scope": "Reglas de dominio, contratos, autorización, persistencia o infraestructura; coordinación de aceptación integral."
     },
     {
       "id": "HU-09",
@@ -213,7 +277,14 @@
       "status": "Pendiente",
       "priority": "P0",
       "issue_url": "https://github.com/vmorenov/Vq-school-backend/issues/9",
-      "issue_number": 9
+      "issue_number": 9,
+      "frontend_tasks": [
+        {
+          "id": "FE-05",
+          "url": "https://github.com/vmorenov/Va-school-app/issues/6"
+        }
+      ],
+      "backend_scope": "Reglas de dominio, contratos, autorización, persistencia o infraestructura; coordinación de aceptación integral."
     },
     {
       "id": "HU-10",
@@ -236,7 +307,14 @@
       "status": "Pendiente",
       "priority": "P0",
       "issue_url": "https://github.com/vmorenov/Vq-school-backend/issues/10",
-      "issue_number": 10
+      "issue_number": 10,
+      "frontend_tasks": [
+        {
+          "id": "FE-05",
+          "url": "https://github.com/vmorenov/Va-school-app/issues/6"
+        }
+      ],
+      "backend_scope": "Reglas de dominio, contratos, autorización, persistencia o infraestructura; coordinación de aceptación integral."
     },
     {
       "id": "HU-11",
@@ -259,7 +337,14 @@
       "status": "Pendiente",
       "priority": "P0",
       "issue_url": "https://github.com/vmorenov/Vq-school-backend/issues/11",
-      "issue_number": 11
+      "issue_number": 11,
+      "frontend_tasks": [
+        {
+          "id": "FE-05",
+          "url": "https://github.com/vmorenov/Va-school-app/issues/6"
+        }
+      ],
+      "backend_scope": "Reglas de dominio, contratos, autorización, persistencia o infraestructura; coordinación de aceptación integral."
     },
     {
       "id": "HU-12",
@@ -282,7 +367,14 @@
       "status": "Pendiente",
       "priority": "P0",
       "issue_url": "https://github.com/vmorenov/Vq-school-backend/issues/12",
-      "issue_number": 12
+      "issue_number": 12,
+      "frontend_tasks": [
+        {
+          "id": "FE-05",
+          "url": "https://github.com/vmorenov/Va-school-app/issues/6"
+        }
+      ],
+      "backend_scope": "Reglas de dominio, contratos, autorización, persistencia o infraestructura; coordinación de aceptación integral."
     },
     {
       "id": "HU-13",
@@ -307,7 +399,18 @@
       "status": "Pendiente",
       "priority": "P0",
       "issue_url": "https://github.com/vmorenov/Vq-school-backend/issues/13",
-      "issue_number": 13
+      "issue_number": 13,
+      "frontend_tasks": [
+        {
+          "id": "FE-02",
+          "url": "https://github.com/vmorenov/Va-school-app/issues/3"
+        },
+        {
+          "id": "FE-06",
+          "url": "https://github.com/vmorenov/Va-school-app/issues/7"
+        }
+      ],
+      "backend_scope": "Reglas de dominio, contratos, autorización, persistencia o infraestructura; coordinación de aceptación integral."
     },
     {
       "id": "HU-14",
@@ -330,7 +433,14 @@
       "status": "Pendiente",
       "priority": "P0",
       "issue_url": "https://github.com/vmorenov/Vq-school-backend/issues/14",
-      "issue_number": 14
+      "issue_number": 14,
+      "frontend_tasks": [
+        {
+          "id": "FE-07",
+          "url": "https://github.com/vmorenov/Va-school-app/issues/8"
+        }
+      ],
+      "backend_scope": "Reglas de dominio, contratos, autorización, persistencia o infraestructura; coordinación de aceptación integral."
     },
     {
       "id": "HU-15",
@@ -355,7 +465,14 @@
       "status": "Pendiente",
       "priority": "P0",
       "issue_url": "https://github.com/vmorenov/Vq-school-backend/issues/15",
-      "issue_number": 15
+      "issue_number": 15,
+      "frontend_tasks": [
+        {
+          "id": "FE-07",
+          "url": "https://github.com/vmorenov/Va-school-app/issues/8"
+        }
+      ],
+      "backend_scope": "Reglas de dominio, contratos, autorización, persistencia o infraestructura; coordinación de aceptación integral."
     },
     {
       "id": "HU-16",
@@ -377,7 +494,14 @@
       "status": "Pendiente",
       "priority": "P0",
       "issue_url": "https://github.com/vmorenov/Vq-school-backend/issues/16",
-      "issue_number": 16
+      "issue_number": 16,
+      "frontend_tasks": [
+        {
+          "id": "FE-07",
+          "url": "https://github.com/vmorenov/Va-school-app/issues/8"
+        }
+      ],
+      "backend_scope": "Reglas de dominio, contratos, autorización, persistencia o infraestructura; coordinación de aceptación integral."
     },
     {
       "id": "HU-17",
@@ -402,7 +526,14 @@
       "status": "Pendiente",
       "priority": "P0",
       "issue_url": "https://github.com/vmorenov/Vq-school-backend/issues/17",
-      "issue_number": 17
+      "issue_number": 17,
+      "frontend_tasks": [
+        {
+          "id": "FE-08",
+          "url": "https://github.com/vmorenov/Va-school-app/issues/9"
+        }
+      ],
+      "backend_scope": "Reglas de dominio, contratos, autorización, persistencia o infraestructura; coordinación de aceptación integral."
     },
     {
       "id": "HU-18",
@@ -424,7 +555,14 @@
       "status": "Pendiente",
       "priority": "P0",
       "issue_url": "https://github.com/vmorenov/Vq-school-backend/issues/18",
-      "issue_number": 18
+      "issue_number": 18,
+      "frontend_tasks": [
+        {
+          "id": "FE-08",
+          "url": "https://github.com/vmorenov/Va-school-app/issues/9"
+        }
+      ],
+      "backend_scope": "Reglas de dominio, contratos, autorización, persistencia o infraestructura; coordinación de aceptación integral."
     },
     {
       "id": "HU-19",
@@ -449,7 +587,14 @@
       "status": "Pendiente",
       "priority": "P1",
       "issue_url": "https://github.com/vmorenov/Vq-school-backend/issues/19",
-      "issue_number": 19
+      "issue_number": 19,
+      "frontend_tasks": [
+        {
+          "id": "FE-09",
+          "url": "https://github.com/vmorenov/Va-school-app/issues/10"
+        }
+      ],
+      "backend_scope": "Reglas de dominio, contratos, autorización, persistencia o infraestructura; coordinación de aceptación integral."
     },
     {
       "id": "HU-20",
@@ -472,7 +617,14 @@
       "status": "Pendiente",
       "priority": "P1",
       "issue_url": "https://github.com/vmorenov/Vq-school-backend/issues/20",
-      "issue_number": 20
+      "issue_number": 20,
+      "frontend_tasks": [
+        {
+          "id": "FE-09",
+          "url": "https://github.com/vmorenov/Va-school-app/issues/10"
+        }
+      ],
+      "backend_scope": "Reglas de dominio, contratos, autorización, persistencia o infraestructura; coordinación de aceptación integral."
     },
     {
       "id": "HU-21",
@@ -494,7 +646,14 @@
       "status": "Pendiente",
       "priority": "P1",
       "issue_url": "https://github.com/vmorenov/Vq-school-backend/issues/21",
-      "issue_number": 21
+      "issue_number": 21,
+      "frontend_tasks": [
+        {
+          "id": "FE-10",
+          "url": "https://github.com/vmorenov/Va-school-app/issues/11"
+        }
+      ],
+      "backend_scope": "Reglas de dominio, contratos, autorización, persistencia o infraestructura; coordinación de aceptación integral."
     },
     {
       "id": "HU-22",
@@ -518,7 +677,14 @@
       "status": "Pendiente",
       "priority": "P1",
       "issue_url": "https://github.com/vmorenov/Vq-school-backend/issues/22",
-      "issue_number": 22
+      "issue_number": 22,
+      "frontend_tasks": [
+        {
+          "id": "FE-10",
+          "url": "https://github.com/vmorenov/Va-school-app/issues/11"
+        }
+      ],
+      "backend_scope": "Reglas de dominio, contratos, autorización, persistencia o infraestructura; coordinación de aceptación integral."
     },
     {
       "id": "HU-23",
@@ -541,7 +707,14 @@
       "status": "Pendiente",
       "priority": "P1",
       "issue_url": "https://github.com/vmorenov/Vq-school-backend/issues/23",
-      "issue_number": 23
+      "issue_number": 23,
+      "frontend_tasks": [
+        {
+          "id": "FE-11",
+          "url": "https://github.com/vmorenov/Va-school-app/issues/12"
+        }
+      ],
+      "backend_scope": "Reglas de dominio, contratos, autorización, persistencia o infraestructura; coordinación de aceptación integral."
     },
     {
       "id": "HU-24",
@@ -564,7 +737,14 @@
       "status": "Pendiente",
       "priority": "P1",
       "issue_url": "https://github.com/vmorenov/Vq-school-backend/issues/24",
-      "issue_number": 24
+      "issue_number": 24,
+      "frontend_tasks": [
+        {
+          "id": "FE-12",
+          "url": "https://github.com/vmorenov/Va-school-app/issues/13"
+        }
+      ],
+      "backend_scope": "Reglas de dominio, contratos, autorización, persistencia o infraestructura; coordinación de aceptación integral."
     },
     {
       "id": "HU-25",
@@ -586,7 +766,14 @@
       "status": "Pendiente",
       "priority": "P1",
       "issue_url": "https://github.com/vmorenov/Vq-school-backend/issues/25",
-      "issue_number": 25
+      "issue_number": 25,
+      "frontend_tasks": [
+        {
+          "id": "FE-12",
+          "url": "https://github.com/vmorenov/Va-school-app/issues/13"
+        }
+      ],
+      "backend_scope": "Reglas de dominio, contratos, autorización, persistencia o infraestructura; coordinación de aceptación integral."
     },
     {
       "id": "HU-26",
@@ -609,7 +796,14 @@
       "status": "Pendiente",
       "priority": "P1",
       "issue_url": "https://github.com/vmorenov/Vq-school-backend/issues/26",
-      "issue_number": 26
+      "issue_number": 26,
+      "frontend_tasks": [
+        {
+          "id": "FE-13",
+          "url": "https://github.com/vmorenov/Va-school-app/issues/14"
+        }
+      ],
+      "backend_scope": "Reglas de dominio, contratos, autorización, persistencia o infraestructura; coordinación de aceptación integral."
     },
     {
       "id": "HU-27",
@@ -632,7 +826,14 @@
       "status": "Pendiente",
       "priority": "P1",
       "issue_url": "https://github.com/vmorenov/Vq-school-backend/issues/27",
-      "issue_number": 27
+      "issue_number": 27,
+      "frontend_tasks": [
+        {
+          "id": "FE-13",
+          "url": "https://github.com/vmorenov/Va-school-app/issues/14"
+        }
+      ],
+      "backend_scope": "Reglas de dominio, contratos, autorización, persistencia o infraestructura; coordinación de aceptación integral."
     },
     {
       "id": "HU-28",
@@ -656,7 +857,14 @@
       "status": "Pendiente",
       "priority": "P1",
       "issue_url": "https://github.com/vmorenov/Vq-school-backend/issues/28",
-      "issue_number": 28
+      "issue_number": 28,
+      "frontend_tasks": [
+        {
+          "id": "FE-14",
+          "url": "https://github.com/vmorenov/Va-school-app/issues/15"
+        }
+      ],
+      "backend_scope": "Reglas de dominio, contratos, autorización, persistencia o infraestructura; coordinación de aceptación integral."
     },
     {
       "id": "HU-29",
@@ -678,7 +886,14 @@
       "status": "Pendiente",
       "priority": "P1",
       "issue_url": "https://github.com/vmorenov/Vq-school-backend/issues/29",
-      "issue_number": 29
+      "issue_number": 29,
+      "frontend_tasks": [
+        {
+          "id": "FE-14",
+          "url": "https://github.com/vmorenov/Va-school-app/issues/15"
+        }
+      ],
+      "backend_scope": "Reglas de dominio, contratos, autorización, persistencia o infraestructura; coordinación de aceptación integral."
     },
     {
       "id": "HU-30",
@@ -703,7 +918,14 @@
       "status": "Pendiente",
       "priority": "P1",
       "issue_url": "https://github.com/vmorenov/Vq-school-backend/issues/30",
-      "issue_number": 30
+      "issue_number": 30,
+      "frontend_tasks": [
+        {
+          "id": "FE-14",
+          "url": "https://github.com/vmorenov/Va-school-app/issues/15"
+        }
+      ],
+      "backend_scope": "Reglas de dominio, contratos, autorización, persistencia o infraestructura; coordinación de aceptación integral."
     },
     {
       "id": "HU-31",
@@ -727,7 +949,14 @@
       "status": "Pendiente",
       "priority": "P1",
       "issue_url": "https://github.com/vmorenov/Vq-school-backend/issues/31",
-      "issue_number": 31
+      "issue_number": 31,
+      "frontend_tasks": [
+        {
+          "id": "FE-15",
+          "url": "https://github.com/vmorenov/Va-school-app/issues/16"
+        }
+      ],
+      "backend_scope": "Reglas de dominio, contratos, autorización, persistencia o infraestructura; coordinación de aceptación integral."
     },
     {
       "id": "HU-32",
@@ -750,7 +979,14 @@
       "status": "Pendiente",
       "priority": "P1",
       "issue_url": "https://github.com/vmorenov/Vq-school-backend/issues/32",
-      "issue_number": 32
+      "issue_number": 32,
+      "frontend_tasks": [
+        {
+          "id": "FE-15",
+          "url": "https://github.com/vmorenov/Va-school-app/issues/16"
+        }
+      ],
+      "backend_scope": "Reglas de dominio, contratos, autorización, persistencia o infraestructura; coordinación de aceptación integral."
     },
     {
       "id": "HU-33",
@@ -774,7 +1010,14 @@
       "status": "Pendiente",
       "priority": "P1",
       "issue_url": "https://github.com/vmorenov/Vq-school-backend/issues/33",
-      "issue_number": 33
+      "issue_number": 33,
+      "frontend_tasks": [
+        {
+          "id": "FE-15",
+          "url": "https://github.com/vmorenov/Va-school-app/issues/16"
+        }
+      ],
+      "backend_scope": "Reglas de dominio, contratos, autorización, persistencia o infraestructura; coordinación de aceptación integral."
     },
     {
       "id": "HU-34",
@@ -797,7 +1040,14 @@
       "status": "Pendiente",
       "priority": "P1",
       "issue_url": "https://github.com/vmorenov/Vq-school-backend/issues/34",
-      "issue_number": 34
+      "issue_number": 34,
+      "frontend_tasks": [
+        {
+          "id": "FE-16",
+          "url": "https://github.com/vmorenov/Va-school-app/issues/17"
+        }
+      ],
+      "backend_scope": "Reglas de dominio, contratos, autorización, persistencia o infraestructura; coordinación de aceptación integral."
     },
     {
       "id": "HU-35",
@@ -823,7 +1073,14 @@
       "status": "Pendiente",
       "priority": "P1",
       "issue_url": "https://github.com/vmorenov/Vq-school-backend/issues/35",
-      "issue_number": 35
+      "issue_number": 35,
+      "frontend_tasks": [
+        {
+          "id": "FE-17",
+          "url": "https://github.com/vmorenov/Va-school-app/issues/18"
+        }
+      ],
+      "backend_scope": "Reglas de dominio, contratos, autorización, persistencia o infraestructura; coordinación de aceptación integral."
     },
     {
       "id": "HU-36",
@@ -848,7 +1105,18 @@
       "status": "Pendiente",
       "priority": "P1",
       "issue_url": "https://github.com/vmorenov/Vq-school-backend/issues/36",
-      "issue_number": 36
+      "issue_number": 36,
+      "frontend_tasks": [
+        {
+          "id": "FE-03",
+          "url": "https://github.com/vmorenov/Va-school-app/issues/4"
+        },
+        {
+          "id": "FE-18",
+          "url": "https://github.com/vmorenov/Va-school-app/issues/19"
+        }
+      ],
+      "backend_scope": "Reglas de dominio, contratos, autorización, persistencia o infraestructura; coordinación de aceptación integral."
     },
     {
       "id": "HU-37",
@@ -883,7 +1151,18 @@
       "status": "Pendiente",
       "priority": "P1",
       "issue_url": "https://github.com/vmorenov/Vq-school-backend/issues/37",
-      "issue_number": 37
+      "issue_number": 37,
+      "frontend_tasks": [
+        {
+          "id": "FE-17",
+          "url": "https://github.com/vmorenov/Va-school-app/issues/18"
+        },
+        {
+          "id": "FE-18",
+          "url": "https://github.com/vmorenov/Va-school-app/issues/19"
+        }
+      ],
+      "backend_scope": "Reglas de dominio, contratos, autorización, persistencia o infraestructura; coordinación de aceptación integral."
     },
     {
       "id": "HU-38",
@@ -908,7 +1187,14 @@
       "status": "Pendiente",
       "priority": "P1",
       "issue_url": "https://github.com/vmorenov/Vq-school-backend/issues/38",
-      "issue_number": 38
+      "issue_number": 38,
+      "frontend_tasks": [
+        {
+          "id": "FE-16",
+          "url": "https://github.com/vmorenov/Va-school-app/issues/17"
+        }
+      ],
+      "backend_scope": "Reglas de dominio, contratos, autorización, persistencia o infraestructura; coordinación de aceptación integral."
     },
     {
       "id": "HU-39",
@@ -931,7 +1217,14 @@
       "status": "Pendiente",
       "priority": "P0",
       "issue_url": "https://github.com/vmorenov/Vq-school-backend/issues/39",
-      "issue_number": 39
+      "issue_number": 39,
+      "frontend_tasks": [
+        {
+          "id": "FE-09",
+          "url": "https://github.com/vmorenov/Va-school-app/issues/10"
+        }
+      ],
+      "backend_scope": "Reglas de dominio, contratos, autorización, persistencia o infraestructura; coordinación de aceptación integral."
     },
     {
       "id": "HU-40",
@@ -953,10 +1246,18 @@
         "communication deduplica eventId/destinatario; reintentos con backoff y cola de fallos visible.",
         "Client credentials sólo técnico; no sustituye identidad de usuario para expedientes; correlationId y pruebas de contrato ante caídas."
       ],
-      "status": "Pendiente",
+      "status": "En progreso (base parcial)",
       "priority": "P0",
       "issue_url": "https://github.com/vmorenov/Vq-school-backend/issues/40",
-      "issue_number": 40
+      "issue_number": 40,
+      "frontend_tasks": [
+        {
+          "id": "FE-02",
+          "url": "https://github.com/vmorenov/Va-school-app/issues/3"
+        }
+      ],
+      "backend_scope": "Reglas de dominio, contratos, autorización, persistencia o infraestructura; coordinación de aceptación integral."
     }
-  ]
+  ],
+  "frontend_repository": "vmorenov/Va-school-app"
 }

@@ -1,14 +1,14 @@
 # Arquitectura propuesta
 
 ## Estilo y límites
-Monorepositorio con frontend React/TypeScript, BFF Java y **tres microservicios de negocio Java**. Java 21 LTS es la base propuesta; en HU-01 se fijan versiones exactas soportadas de Spring Boot, React, Node, Maven, Keycloak y contenedores. Esta definición no equivale a una matriz de versiones ya probada.
+Dos repositorios activos: Va-school-app contiene shell React/TypeScript, microfrontends Académico/Aprendizaje y web pública; Vq-school-backend contiene BFF Java, **tres microservicios de negocio Java** e infraestructura. Véase [ADR-0002](adr/0002-dos-repositorios-microfrontends.md). Java 21 LTS es la base propuesta; en HU-01 se fijan versiones exactas soportadas de Spring Boot, React, Node, Maven, Keycloak y contenedores. Esta definición no equivale a una matriz de versiones ya probada.
 
 Se agrupa la operación académica e inspectoría en school-service para conservar transacciones locales. No se crea un microservicio por tabla. Learning y communication se separan por carga, ciclo de vida y responsabilidad. BFF mantiene la sesión y enruta; no contiene reglas académicas.
 
 ## Contenedores principales
 ```mermaid
 flowchart TD
-    U["Navegador"] --> E["Proxy HTTPS y React"]
+    U["Navegador"] --> E["Proxy HTTPS y shell React"]
     E --> B["BFF Java"]
     U --> K["Keycloak"]
     B --> K
@@ -25,7 +25,7 @@ flowchart TD
     B --> R["Redis de sesiones"]
     K --> D4["Base Keycloak"]
 ```
-Relaciones S/L → communication para eventos se detallan en el flujo de outbox; se omiten aquí para evitar cruces. El frontend sirve rutas públicas indexables (SSR/prerender) y portal privado; el mecanismo exacto se fija en HU-01.
+Relaciones S/L → communication para eventos se detallan en el flujo de outbox; se omiten aquí para evitar cruces. El frontend usa Module Federation para dos remotos y una aplicación pública separada con prerender. El shell mantiene navegación y sesión; cada aplicación tiene build/imagen independiente.
 
 | Componente | Posee | No posee |
 |---|---|---|

@@ -1,6 +1,8 @@
 # Backlog del MVP
 
-40 historias pendientes de implementación, agrupadas en 9 épicas y 4 incrementos. 207 puntos orientativos, no horas ni compromiso de plazo. P0 y P1 están incluidos en el MVP; indican orden de construcción.
+40 historias funcionales, con base técnica en progreso, agrupadas en 9 épicas y 4 incrementos. 207 puntos orientativos, no horas ni compromiso de plazo. P0 y P1 están incluidos en el MVP; indican orden de construcción.
+
+Consultar la [distribución entre repositorios](08-distribucion-repositorios.md): 18 tareas FE ejecutan la interfaz sin duplicar alcance.
 
 ## Épicas
 
@@ -65,9 +67,9 @@
 
 ### HU-01 — Inicializar monorepositorio y herramientas
 
-Como **equipo técnico**, quiero **construir React y Java desde un checkout**.
+Como **equipo técnico**, quiero **construir cada plataforma desde su repositorio y arrancarlas de forma integrada**.
 
-- [ ] React/TypeScript en apps/web y Maven multimódulo Java 21 en services; versiones exactas y lockfiles, sin latest.
+- [ ] React/TypeScript en Va-school-app y Maven multimódulo Java 21 en services de Vq-school-backend; versiones exactas y lockfiles, sin latest.
 - [ ] Build, lint y pruebas reproducibles en CI y guía para un nuevo desarrollador.
 - [ ] Cada servicio usa Dockerfile multi-stage y usuario no root; no comparte entidades JPA ni lógica de negocio.
 

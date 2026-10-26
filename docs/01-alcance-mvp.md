@@ -14,7 +14,7 @@ Comprador propuesto: dirección/administración del establecimiento. Usuarios: c
 - “Notas del inspector” se interpreta como **anotaciones de convivencia**, separadas de calificaciones académicas.
 - Apoderado es contacto asociado a un alumno y destinatario de citaciones; el acceso con rol APODERADO se deja para una fase posterior.
 - Un usuario puede tener varios roles, pero sólo dentro de membresías explícitas. Un administrador de colegio no es administrador de Keycloak.
-- Sitio público y portal pertenecen al mismo producto y monorepositorio. Se conserva el repositorio existente de backend como raíz, sin renombrarlo.
+- Sitio público y portal pertenecen al mismo producto. Backend e infraestructura viven en Vq-school-backend; shell, microfrontends y web pública viven en Va-school-app. Ambos son monorepositorios activos, sin duplicar código.
 - No se pretende reemplazar un libro oficial, emitir certificados oficiales ni integrar organismos públicos en este MVP.
 
 ## Alcance incluido

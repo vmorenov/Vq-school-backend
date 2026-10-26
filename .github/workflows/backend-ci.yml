@@ -1,0 +1,29 @@
+name: Backend CI
+on:
+  pull_request:
+  push:
+    branches: [develop, staging, master, 'feat/**']
+permissions:
+  contents: read
+jobs:
+  verify:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-java@v4
+        with:
+          distribution: temurin
+          java-version: '21'
+          cache: maven
+      - run: mvn -B -ntp verify
+      - run: python3 scripts/check_backlog.py
+      - run: python3 infra/init-local.py
+      - run: docker compose --env-file infra/.env -f infra/compose.yaml config --quiet
+  images:
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        service: [bff, school-service, learning-service, communication-service]
+    steps:
+      - uses: actions/checkout@v4
+      - run: docker build --build-arg SERVICE=${{ matrix.service }} -t vq-${{ matrix.service }}:ci .

@@ -10,3 +10,7 @@ Consultadas al preparar la base. Son referencias de comportamiento de tecnologí
 - [Docker Compose en producción](https://docs.docker.com/compose/how-tos/production/): configuración específica de ambientes.
 - [GitHub: reglas de protección](https://docs.github.com/en/repositories/configuring-branches-and-merges-in-your-repository/managing-protected-branches/managing-a-branch-protection-rule): requerir PR y controles de merge.
 - [GitHub: rulesets](https://docs.github.com/repositories/configuring-branches-and-merges-in-your-repository/managing-rulesets/about-rulesets): alcance y actores con bypass.
+
+- [Module Federation + Vite](https://module-federation.io/integrations/build-tool/vite): configuración de remotos y dependencias compartidas.
+- [Spring Boot 3.5 requisitos](https://docs.spring.io/spring-boot/3.5/system-requirements.html).
+- [Keycloak en contenedores](https://www.keycloak.org/server/containers).
